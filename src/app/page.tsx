@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 
 const sampleArticle = `
@@ -15,35 +15,80 @@ Note: Should move away from the layout animations and just do pure width
 transforms. Layout animations are weird and sizing and stuff.
 */
 
+const homeColumnVariants = {
+	open: {
+		width: "calc((1/3)*100%)",
+	},
+};
+
+const articleColumnVariants = {
+	closed: {
+		width: "0",
+	},
+	open: {
+		width: "calc(((2/3)*100%))", //32px = 16px * 2
+	},
+};
+
+const shopColumnVariants = {
+	closed: {
+		width: "16px",
+	},
+	open: {
+		width: "calc((1/3)*100%)",
+	},
+};
+
+const aboutColumnVariants = {
+	closed: {
+		width: "16px",
+	},
+	open: {
+		width: "calc((1/3)*100%)",
+	},
+};
+
 export default function Home() {
-	const [isOpen, setOpen] = useState(true);
+	const [isArticleOpen, setArticleOpen] = useState(false);
 	return (
 		<motion.main
-			layout="position"
 			transition={{ duration: 0.3 }}
-			className="grid border-black border-b-[1px] h-full"
-			style={{
-				gridTemplateColumns: isOpen ? "1fr 0px 1fr 1fr" : "1fr 2fr 10px 10px",
-			}}
-			onClick={() => setOpen(!isOpen)}
+			className="flex flex-cols border-black border-b-[1px] h-full"
+			onClick={() => setArticleOpen(!isArticleOpen)}
 		>
-			<motion.section layout className="bg-white border-black border-r-[1px]">
+			<motion.section
+				variants={homeColumnVariants}
+				animate={isArticleOpen ? "open" : "open"}
+				initial={"open"}
+				className="bg-white border-black border-r-[1px] h-dvh"
+			>
 				<ArticleLink date="JAN 08" title="WHY MARGINALIZED ART MATTERS" />
 			</motion.section>
+			<AnimatePresence>
+				{isArticleOpen && (
+					<motion.section
+						variants={articleColumnVariants}
+						initial={"closed"}
+						animate={"open"}
+						exit={"closed"}
+						className="bg-white border-black border-r-[1px]"
+					>
+						<SelectedArticle article={sampleArticle} />
+					</motion.section>
+				)}
+			</AnimatePresence>
 			<motion.section
-				layout="position"
+				variants={shopColumnVariants}
+				animate={isArticleOpen ? "closed" : "open"}
+				initial={"open"}
 				className="bg-white border-black border-r-[1px]"
 			>
-				<SelectedArticle article={sampleArticle} />
+				SHOP
 			</motion.section>
 			<motion.section
-				layout="position"
-				className="bg-white border-black border-r-[1px]"
-			>
-				test
-			</motion.section>
-			<motion.section
-				layout="position"
+				variants={aboutColumnVariants}
+				animate={isArticleOpen ? "closed" : "open"}
+				initial={"open"}
 				className="bg-white border-black border-r-[1px]"
 			>
 				test
