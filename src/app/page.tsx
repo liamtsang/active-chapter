@@ -26,31 +26,36 @@ const homeColumnVariants = {
 
 const articleColumnVariants = {
 	closed: {
-		width: "0",
+		width: 0,
+		minWidth: 0,
 	},
 	open: {
-		width: "62.66667%", //32px = 16px * 2
+		width: "calc((2/3)*100% - 48px)",
+		minWidth: "auto",
 	},
 };
 
 const shopColumnVariants = {
 	closed: {
-		width: "2%",
+		width: "24px",
+		minWidth: 0,
 	},
 	open: {
 		width: "calc((1/3)*100%)",
+		minWidth: "auto",
 	},
 };
 
 const aboutColumnVariants = {
 	closed: {
-		width: "2%",
+		width: "24px",
+		minWidth: 0,
 	},
 	open: {
 		width: "calc((1/3)*100%)",
+		minWidth: "auto",
 	},
 };
-
 /*
 
 STATE THAT NEEDS TO BE TRACKED :
@@ -175,45 +180,77 @@ interface HeaderProps {
 const Header = ({ columnState, dispatch }: HeaderProps) => {
 	return (
 		<motion.header
-			transition={{ duration: 0.3 }}
-			className="font-yantra flex flex-cols border-black border-b-[1px] h-12 overflow-x-hidden"
+			layout
+			transition={{
+				duration: 0.3,
+				layout: { duration: 0.3 },
+			}}
+			className="font-yantra flex flex-cols outline outline-black outline-[1px] h-12 overflow-x-hidden"
 		>
 			<motion.section
+				layout
+				layoutId="home"
 				variants={homeColumnVariants}
 				animate={columnState?.home.open ? "open" : "closed"}
 				initial={"open"}
-				className="pt-1 pl-2 bg-white hover:bg-[#FFFF00] border-black border-r-[1px]"
+				transition={{
+					layout: { duration: 0.3 },
+					width: { duration: 0.3 },
+				}}
+				className="relative bg-white hover:bg-[#FFFF00] outline outline-black outline-[1px]"
 			>
 				Home
+				<NumberBadge number="1" />
 			</motion.section>
-			<AnimatePresence>
+			<AnimatePresence mode="popLayout">
 				{columnState?.article.open && (
 					<motion.section
+						layout
+						layoutId="article"
 						variants={articleColumnVariants}
 						initial={"closed"}
 						animate={"open"}
 						exit={"closed"}
-						className="pt-1 pl-2 bg-white border-black border-r-[1px]"
+						transition={{
+							layout: { duration: 0.3 },
+							width: { duration: 0.3 },
+						}}
+						className="relative bg-white outline outline-black outline-[1px]"
 					>
 						Writings
+						<NumberBadge number="4" />
 					</motion.section>
 				)}
 			</AnimatePresence>
 			<motion.section
+				layout
+				layoutId="shop"
 				variants={shopColumnVariants}
 				animate={columnState?.store.open ? "open" : "closed"}
 				initial={"open"}
-				className="pt-1 pl-2 bg-white border-black border-r-[1px]"
+				transition={{
+					layout: { duration: 0.3 },
+					width: { duration: 0.3 },
+				}}
+				className="relative z-[1] bg-white outline outline-black outline-[1px]"
 			>
 				Shop
+				<NumberBadge number="2" />
 			</motion.section>
 			<motion.section
+				layout
+				layoutId="about"
 				variants={aboutColumnVariants}
 				animate={columnState?.about.open ? "open" : "closed"}
 				initial={"open"}
-				className="pt-1 pl-2 bg-white border-black border-r-[1px]"
+				transition={{
+					layout: { duration: 0.3 },
+					width: { duration: 0.3 },
+				}}
+				className="relative z-[1] bg-white outline outline-black outline-[1px]"
 			>
 				About
+				<NumberBadge number="3" />
 			</motion.section>
 		</motion.header>
 	);
@@ -228,16 +265,26 @@ type MainProps = {
 const Main = ({ columnState, dispatch, toggleArticle }: MainProps) => {
 	return (
 		<motion.main
-			transition={{ duration: 0.3 }}
-			className="flex flex-cols border-black border-b-[1px] h-full overflow-x-hidden"
+			layout="preserve-aspect"
+			transition={{
+				duration: 0.3,
+				layout: { duration: 0.3 },
+			}}
+			className="flex flex-cols outline outline-black outline-[1px] h-full overflow-x-clip"
 		>
 			<motion.section
+				layout="position"
+				layoutId="home-main"
 				variants={homeColumnVariants}
 				animate={columnState?.home.open ? "open" : "closed"}
 				initial={"open"}
-				className="font-yantra bg-white border-black border-r-[1px] h-dvh"
+				transition={{
+					layout: { duration: 0.3 },
+					width: { duration: 0.3 },
+				}}
+				className="font-yantra bg-white outline outline-black outline-[1px] h-dvh"
 			>
-				<ul className="cursor-pointer">
+				<motion.ul layout="position" className="cursor-pointer">
 					<ArticleLink
 						day="08"
 						month="JAN"
@@ -252,36 +299,58 @@ const Main = ({ columnState, dispatch, toggleArticle }: MainProps) => {
 						article={sampleArticleTwo}
 						toggleArticle={toggleArticle}
 					/>
-				</ul>
+				</motion.ul>
 			</motion.section>
-			<AnimatePresence>
+			<AnimatePresence mode="popLayout">
 				{columnState?.article.open && (
 					<motion.section
+						layout="position"
+						layoutId="article-main"
 						variants={articleColumnVariants}
 						initial={"closed"}
 						animate={"open"}
 						exit={"closed"}
-						className="bg-white border-black border-r-[1px]"
+						transition={{
+							layout: { duration: 0.3 },
+							width: { duration: 0.3 },
+						}}
+						className="z-[-1] bg-white outline outline-black outline-[1px]"
 					>
-						<SelectedArticle article={columnState.article.content} />
+						<motion.div layout="position">
+							<SelectedArticle article={columnState.article.content} />
+						</motion.div>
 					</motion.section>
 				)}
 			</AnimatePresence>
 			<motion.section
+				layout="position"
+				layoutId="shop-main"
 				variants={shopColumnVariants}
 				animate={columnState?.store.open ? "open" : "closed"}
 				initial={"open"}
-				className="bg-white border-black border-r-[1px]"
+				transition={{
+					layout: { duration: 0.3 },
+					width: { duration: 0.3 },
+				}}
+				className="bg-white outline outline-black outline-[1px]"
 			>
 				SHOP
 			</motion.section>
 			<motion.section
+				layout="position"
+				layoutId="about-main"
 				variants={aboutColumnVariants}
 				animate={columnState?.about.open ? "open" : "closed"}
 				initial={"open"}
-				className="h-dvh overflow-y-auto relative bg-white border-black border-r-[1px]"
+				transition={{
+					layout: { duration: 0.3 },
+					width: { duration: 0.3 },
+				}}
+				className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px]"
 			>
-				<About />
+				<motion.div layout="position">
+					<About />
+				</motion.div>
 			</motion.section>
 		</motion.main>
 	);
@@ -336,4 +405,12 @@ const ArticleLink = ({
 
 const SelectedArticle = ({ article }: { article: string }) => (
 	<div>{article}</div>
+);
+
+const NumberBadge = ({ number }: { number: string }) => (
+	<div className="absolute right-0 bottom-[-1px] w-[24px] min-w-[24px] h-[24px] min-h-[24px] border border-black border-[1px]">
+		<div className="translate-y-[-1px] translate-x-[-1px] flex items-center justify-center w-[24px] min-w-[24px] h-[24px] min-h-[24px] rounded-full border border-black border-[1px]">
+			<span className="">{number}</span>
+		</div>
+	</div>
 );

@@ -15,6 +15,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<head>
+				<script src="https://unpkg.com/react-scan/dist/auto.global.js" />
 				<link rel="preconnect" href="https://fonts.googleapis.com" />
 				<link rel="preconnect" href="https://fonts.gstatic.com" />
 				<link
