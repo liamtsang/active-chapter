@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,15 +14,14 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<head>
-				<script src="https://unpkg.com/react-scan/dist/auto.global.js" />
 				<link rel="preconnect" href="https://fonts.googleapis.com" />
 				<link rel="preconnect" href="https://fonts.gstatic.com" />
 				<link
-					href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Yantramanav:wght@100;300;400;500;700;900&display=swap"
+					href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@300..700&family=Yantramanav:wght@100;300;400;500;700;900&display=swap"
 					rel="stylesheet"
 				/>
 			</head>
-			<body className="max-h-dvh overflow-y-hidden font-yantra text-2xl">
+			<body className="max-h-dvh overflow-y-hidden font-space text-2xl selection:bg-[#FFFF00]">
 				{children}
 			</body>
 		</html>

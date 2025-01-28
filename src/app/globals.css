@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: #ffffff;
@@ -17,6 +18,10 @@ body {
   font-family: "Yantramanav", serif;
 }
 
+.font-space {
+  font-family: "Space Grotesk", serif;
+}
+
 .font-instrument {
   font-family: "Instrument Sans", serif;
 }
@@ -25,4 +30,22 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.button-group button {
+  background: rgba(61, 37, 20, 0.08);
+  border-radius: 0.5rem;
+  border: none;
+  font-family: "Instrument Sans";
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.15;
+  margin: none;
+  padding: 0.375rem 0.625rem;
 }
