@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import type { PluginUtils } from "tailwindcss/types/config";
 
 const config: Config = {
 	content: [
@@ -12,7 +13,7 @@ const config: Config = {
 				background: "var(--background)",
 				foreground: "var(--foreground)",
 			},
-			typography: ({ theme }) => ({
+			typography: ({ theme }: PluginUtils) => ({
 				black: {
 					css: {
 						"--tw-prose-body": theme("colors.black"),

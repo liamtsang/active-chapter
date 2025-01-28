@@ -1,18 +1,20 @@
 import type { MDXContent } from "mdx/types";
 
+export type ValidColumnStates = "full" | "closed" | "third" | "expanded";
+
 export type ColumnState = {
 	home: {
-		open: boolean;
+		open: ValidColumnStates;
 	};
 	article: {
-		open: boolean;
+		open: ValidColumnStates;
 		content: MDXContent;
 	};
-	store: {
-		open: boolean;
+	shop: {
+		open: ValidColumnStates;
 	};
 	about: {
-		open: boolean;
+		open: ValidColumnStates;
 	};
 };
 

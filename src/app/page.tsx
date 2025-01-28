@@ -11,11 +11,14 @@ export default function Home() {
 	const [hoveredColumn, setHoveredColumn] = useState<string | null>(null);
 
 	const toggleArticle = (content: MDXContent) => {
-		if (columnState.article.open && content !== columnState.article.content) {
+		if (
+			columnState.article.open === "expanded" &&
+			content !== columnState.article.content
+		) {
 			dispatch({ type: "change-article", content });
-		} else if (columnState.article.open) {
-			dispatch({ type: "close-article", content: Welcome });
-		} else if (!columnState.article.open) {
+		} else if (columnState.article.open === "expanded") {
+			dispatch({ type: "default", content: Welcome });
+		} else if (columnState.article.open === "closed") {
 			dispatch({ type: "open-article", content });
 		}
 	};

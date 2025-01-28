@@ -1,15 +1,7 @@
 "use client";
 
-import {
-	useEditor,
-	EditorContent,
-	FloatingMenu,
-	BubbleMenu,
-} from "@tiptap/react";
+import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import ListItem from "@tiptap/extension-list-item";
-import TextStyle from "@tiptap/extension-text-style";
-import { useCurrentEditor } from "@tiptap/react";
 import React from "react";
 
 const Tiptap = () => {
@@ -184,81 +176,48 @@ const Tiptap = () => {
 					/>
 				</div>
 			</section>
-			<section className="outline outline-[1px] outline-black rounded-t-xl font-instrument text-base max-w-fit">
+			<section className="w-full outline outline-[1px] outline-black rounded-t-xl font-instrument text-base max-w-fit">
 				<h1 className="p-2 bg-black text-white rounded-t-xl mb-4 text-2xl">
 					Metadata
 				</h1>
-				<div className="space-y-4">
+				<div className="space-y-4 mx-2">
 					<div className="flex flex-col gap-1">
-						<label htmlFor="title">Title</label>
+						<label className="rounded-sm" htmlFor="title">
+							Title
+						</label>
 						<input
 							name="title"
-							className="outline outline-black outline-[1px]"
+							className="outline outline-black outline-[1px] rounded-sm"
 						/>
 					</div>
 					<div className="flex flex-col gap-1">
-						<label htmlFor="title">Author</label>
+						<label className="rounded-sm" htmlFor="author">
+							Author
+						</label>
 						<input
 							name="author"
-							className="outline outline-black outline-[1px]"
+							className="outline outline-black outline-[1px] rounded-sm"
 						/>
 					</div>
 					<div className="flex flex-col gap-1">
-						<label htmlFor="title">Publication Date</label>
+						<label className="rounded-sm" htmlFor="date">
+							Publication Date MM-DD-YYYY
+						</label>
 						<input
-							name="author"
-							className="outline outline-black outline-[1px]"
+							name="date"
+							className="outline outline-black outline-[1px] rounded-sm"
 						/>
 					</div>
+					<button
+						className="bg-black text-white rounded-md px-2 "
+						type="submit"
+					>
+						Submit
+					</button>
 				</div>
 			</section>
 		</main>
 	);
 };
-
-const extensions = [
-	TextStyle.configure({ types: [ListItem.name] }),
-	StarterKit.configure({
-		bulletList: {
-			keepMarks: true,
-			keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-		},
-		orderedList: {
-			keepMarks: true,
-			keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-		},
-	}),
-];
-
-const content = `
-<h2>
-  Hi there,
-</h2>
-<p>
-  this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-</p>
-<ul>
-  <li>
-    That’s a bullet list with one …
-  </li>
-  <li>
-    … or two list items.
-  </li>
-</ul>
-<p>
-  Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-</p>
-<pre><code class="language-css">body {
-  display: none;
-}</code></pre>
-<p>
-  I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-</p>
-<blockquote>
-  Wow, that’s amazing. Good work, boy! 👏
-  <br />
-  — Mom
-</blockquote>
-`;
 
 export default Tiptap;

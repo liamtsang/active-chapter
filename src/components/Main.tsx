@@ -41,8 +41,8 @@ export const Main = ({
 				layout="position"
 				layoutId="home-main"
 				variants={homeColumnVariants}
-				animate={columnState?.home.open ? "open" : "closed"}
-				initial={"open"}
+				animate={columnState?.home.open}
+				initial={"third"}
 				transition={{
 					layout: { duration: 0.3 },
 					width: { duration: 0.3 },
@@ -69,13 +69,14 @@ export const Main = ({
 				</motion.ul>
 			</motion.section>
 			<AnimatePresence mode="popLayout">
-				{columnState?.article.open && (
+				{(columnState?.article.open === "full" ||
+					columnState?.article.open === "expanded") && (
 					<motion.section
 						layout="position"
 						layoutId="article-main"
 						variants={articleColumnVariants}
 						initial={"closed"}
-						animate={"open"}
+						animate={columnState?.article.open}
 						exit={"closed"}
 						transition={{
 							layout: { duration: 0.3 },
@@ -83,7 +84,7 @@ export const Main = ({
 						}}
 						onMouseEnter={() => onColumnHover("article")}
 						onMouseLeave={() => onColumnHover(null)}
-						className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px]"
+						className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px] ml-auto"
 					>
 						<SelectedArticle article={columnState.article.content} />
 					</motion.section>
@@ -93,8 +94,8 @@ export const Main = ({
 				layout="position"
 				layoutId="shop-main"
 				variants={shopColumnVariants}
-				animate={columnState?.store.open ? "open" : "closed"}
-				initial={"open"}
+				animate={columnState?.shop.open}
+				initial={"third"}
 				transition={{
 					layout: { duration: 0.3 },
 					width: { duration: 0.3 },
@@ -109,8 +110,8 @@ export const Main = ({
 				layout="position"
 				layoutId="about-main"
 				variants={aboutColumnVariants}
-				animate={columnState?.about.open ? "open" : "closed"}
-				initial={"open"}
+				animate={columnState?.about.open}
+				initial={"third"}
 				transition={{
 					layout: { duration: 0.3 },
 					width: { duration: 0.3 },
