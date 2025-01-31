@@ -77,7 +77,7 @@ export const Header = ({
 								dispatch({ type: "full-article", content: Welcome });
 							}
 						}}
-						className={`${getBgColor("article", hoveredColumns)} relative outline outline-black outline-[1px] transition-colors duration-200`}
+						className={`${getBgColor("article", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
 					>
 						Writings
 						<NumberBadge number="4" />
