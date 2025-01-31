@@ -117,45 +117,10 @@ export default function Home() {
 		setIsSaving(true);
 
 		try {
-			const response = await fetch("/api/articles", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					metadata: {
-						...metadata,
-						// Ensure publishDate is properly formatted
-						publishDate:
-							metadata.publishDate instanceof Date
-								? metadata.publishDate
-								: new Date(metadata.publishDate),
-					},
-					content: editorContent,
-				}),
-			});
-
-			if (!response.ok) {
-				throw new Error("Failed to save article");
-			}
-
-			const data = await response.json();
-			console.log(data);
-
-			toast({
-				title: "Success",
-				description: "Article saved successfully!",
-			});
-
-			// Optionally redirect to the article or clear the form
-			// router.push(`/articles/${data.articleId}`)
+			console.log(metadata);
+			console.log(editorContent);
 		} catch (error) {
-			console.error("Error saving article:", error);
-			toast({
-				variant: "destructive",
-				title: "Error",
-				description: "Failed to save article. Please try again.",
-			});
+			console.error(error);
 		} finally {
 			setIsSaving(false);
 		}

@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { format } from "date-fns";
 import { useEffect } from "react";
+import { getMetadataTypes, type MetadataTypes } from "@/lib/db";
 import type { Metadata } from "@/types";
 
 interface Item {
@@ -165,6 +166,8 @@ interface MetadataFormProps {
 	hasErrors?: boolean;
 }
 
+type MetadataTypeKey = keyof MetadataTypes;
+
 const MetadataForm: React.FC<MetadataFormProps> = ({
 	onMetadataChange,
 	hasErrors,
@@ -178,9 +181,7 @@ const MetadataForm: React.FC<MetadataFormProps> = ({
 		medium: "",
 	});
 
-	const [metadataTypes, setMetadataTypes] = React.useState<
-		Record<string, Item[]>
-	>({
+	const [metadataTypes, setMetadataTypes] = React.useState<MetadataTypes>({
 		authors: [],
 		journals: [],
 		mediums: [],
@@ -189,29 +190,16 @@ const MetadataForm: React.FC<MetadataFormProps> = ({
 
 	const [isLoading, setIsLoading] = React.useState(true);
 
-	// Fetch metadata types on component mount
 	React.useEffect(() => {
-		const fetchMetadataTypes = async () => {
-			try {
-				const response = await fetch("/api/metadata");
-				if (!response.ok) throw new Error("Failed to fetch metadata");
-				const data = (await response.json()) as unknown as Record<
-					string,
-					Item[]
-				>;
-				setMetadataTypes(data);
-			} catch (error) {
-				console.error("Error fetching metadata:", error);
-				// You might want to show an error toast here
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		fetchMetadataTypes();
+		async function loadMetadata() {
+			const metadata = await getMetadataTypes();
+			setMetadataTypes(metadata);
+			setIsLoading(false);
+		}
+		loadMetadata();
 	}, []);
 
-	const handleAddItem = (type: string, newItem: Item) => {
+	const handleAddItem = (type: MetadataTypeKey, newItem: Item) => {
 		setMetadataTypes((prev) => ({
 			...prev,
 			[type]: [...prev[type], newItem],
