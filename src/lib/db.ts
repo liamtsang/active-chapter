@@ -20,6 +20,16 @@ export interface MetadataTypes {
 	tags: MetadataItem[];
 }
 
+export interface SaveArticleRequest {
+	title: string;
+	author: string;
+	publishDate: Date;
+	tags: string[];
+	journal: string;
+	medium: string;
+	content: string;
+}
+
 interface D1Result<T> {
 	results: T[];
 	success: boolean;
@@ -102,6 +112,124 @@ export async function getMetadataTypes(): Promise<MetadataTypes> {
 	}
 }
 
+export async function saveArticle(
+	articleData: SaveArticleRequest,
+): Promise<string> {
+	const db = await getDB();
+	const articleId = crypto.randomUUID();
+
+	try {
+		// First save content to R2
+		await saveArticleR2({
+			key: articleId,
+			article: articleData.content,
+		});
+
+		// Now save metadata and relationships in D1
+		const result = await db.batch([
+			// 1. Get or create author
+			db
+				.prepare(`
+        INSERT INTO authors (name, slug) 
+        VALUES (?, ?) 
+        ON CONFLICT (slug) DO UPDATE SET name = ? 
+        RETURNING id
+      `)
+				.bind(
+					articleData.author,
+					articleData.author.toLowerCase().replace(/\s+/g, "-"),
+					articleData.author,
+				),
+
+			// 2. Get or create journal
+			db
+				.prepare(`
+        INSERT INTO journals (name, slug) 
+        VALUES (?, ?) 
+        ON CONFLICT (slug) DO UPDATE SET name = ? 
+        RETURNING id
+      `)
+				.bind(
+					articleData.journal,
+					articleData.journal.toLowerCase().replace(/\s+/g, "-"),
+					articleData.journal,
+				),
+
+			// 3. Get or create medium
+			db
+				.prepare(`
+        INSERT INTO mediums (name, slug) 
+        VALUES (?, ?) 
+        ON CONFLICT (slug) DO UPDATE SET name = ? 
+        RETURNING id
+      `)
+				.bind(
+					articleData.medium,
+					articleData.medium.toLowerCase().replace(/\s+/g, "-"),
+					articleData.medium,
+				),
+
+			// 4. Insert or update tags and get their IDs
+			...articleData.tags.map((tag) =>
+				db
+					.prepare(`
+          INSERT INTO tags (name, slug) 
+          VALUES (?, ?) 
+          ON CONFLICT (slug) DO UPDATE SET name = ? 
+          RETURNING id
+        `)
+					.bind(tag, tag.toLowerCase().replace(/\s+/g, "-"), tag),
+			),
+		]);
+
+		// Extract IDs from results
+		const [authorResult, journalResult, mediumResult, ...tagResults] =
+			result as D1Result<{ id: number }>[];
+
+		// Insert the article metadata
+		await db
+			.prepare(`
+      INSERT INTO articles (
+        id,
+        title, 
+        author_id, 
+        journal_id, 
+        medium_id, 
+        publish_date,
+        content_hash
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    `)
+			.bind(
+				articleId,
+				articleData.title,
+				authorResult.results[0].id,
+				journalResult.results[0].id,
+				mediumResult.results[0].id,
+				new Date(articleData.publishDate).toISOString(),
+				articleId, // Using the same UUID as R2 key
+			)
+			.run();
+
+		// Insert article-tag relationships
+		if (tagResults.length > 0) {
+			await db.batch(
+				tagResults.map((tagResult) =>
+					db
+						.prepare(
+							"INSERT INTO article_tags (article_id, tag_id) VALUES (?, ?)",
+						)
+						.bind(articleId, tagResult.results[0].id),
+				),
+			);
+		}
+
+		return articleId;
+	} catch (error) {
+		console.error("Error saving article:", error);
+		throw new Error("Failed to save article");
+	}
+}
+
 export async function saveArticleR2({
 	key,
 	article,
@@ -110,3 +238,14 @@ export async function saveArticleR2({
 	await r2.put(key, article);
 	return;
 }
+
+// Utility function to slugify strings
+// function slugify(text: string): string {
+// 	return text
+// 		.toLowerCase()
+// 		.replace(/\s+/g, "-")
+// 		.replace(/[^\w\-]+/g, "")
+// 		.replace(/\-\-+/g, "-")
+// 		.replace(/^-+/, "")
+// 		.replace(/-+$/, "");
+// }

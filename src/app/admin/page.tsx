@@ -17,7 +17,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { saveArticleR2 } from "@/lib/db";
+import { saveArticle } from "@/lib/db";
 
 interface Metadata {
 	title: string;
@@ -86,7 +86,7 @@ export default function Home() {
 	};
 
 	// Save function with error handling and loading state
-	const saveArticle = async () => {
+	const handleSave = async () => {
 		// Basic validation
 		if (!metadata?.title) {
 			toast({
@@ -118,10 +118,26 @@ export default function Home() {
 		setIsSaving(true);
 
 		try {
-			console.log(metadata);
-			console.log(editorContent);
-			saveArticleR2({ key: "test", article: editorContent });
+			await saveArticle({
+				title: metadata.title,
+				author: metadata.author,
+				publishDate: metadata.publishDate,
+				tags: metadata.tags,
+				journal: metadata.journal,
+				medium: metadata.medium,
+				content: editorContent,
+			});
+
+			toast({
+				title: "Success",
+				description: "Article saved successfully!",
+			});
 		} catch (error) {
+			toast({
+				variant: "destructive",
+				title: "Error",
+				description: "Failed to save article",
+			});
 			console.error(error);
 		} finally {
 			setIsSaving(false);
@@ -158,7 +174,7 @@ export default function Home() {
 						)}
 					/>
 					<Button
-						onClick={saveArticle}
+						onClick={handleSave}
 						className="w-full max-w-[65ch]"
 						size="lg"
 						disabled={isSaving || !hasUnsavedChanges}

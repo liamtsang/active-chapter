@@ -45,19 +45,18 @@ CREATE TABLE tags (
 
 -- Create main articles table
 CREATE TABLE articles (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id TEXT PRIMARY KEY, -- Changed to TEXT for UUID
     title TEXT NOT NULL,
     author_id INTEGER NOT NULL,
     journal_id INTEGER NOT NULL,
     medium_id INTEGER NOT NULL,
     publish_date DATE NOT NULL,
-    content TEXT,     -- Direct content if storing in D1
-    content_hash TEXT, -- Hash reference to R2 storage if using it
+    content_hash TEXT NOT NULL, -- This will store the R2 key
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE RESTRICT,
-    FOREIGN KEY (journal_id) REFERENCES journals(id) ON DELETE RESTRICT,
-    FOREIGN KEY (medium_id) REFERENCES mediums(id) ON DELETE RESTRICT
+    FOREIGN KEY (author_id) REFERENCES authors(id),
+    FOREIGN KEY (journal_id) REFERENCES journals(id),
+    FOREIGN KEY (medium_id) REFERENCES mediums(id)
 );
 
 -- Create junction table for article tags (many-to-many)

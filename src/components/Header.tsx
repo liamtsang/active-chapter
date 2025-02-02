@@ -72,7 +72,10 @@ export const Header = ({
 						}}
 						onClick={() => {
 							if (columnState?.article.open === "full") {
-								dispatch({ type: "open-article", content: Welcome });
+								dispatch({
+									type: "open-article",
+									content: columnState.article.content,
+								});
 							} else {
 								dispatch({ type: "full-article", content: Welcome });
 							}
