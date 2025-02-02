@@ -2,6 +2,7 @@
 
 interface Env {
 	NEXTJS_ENV: string;
+	posts: R2Bucket;
 	DB: D1Database;
 	ASSETS: Fetcher;
 }

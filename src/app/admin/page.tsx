@@ -17,6 +17,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { saveArticleR2 } from "@/lib/db";
 
 interface Metadata {
 	title: string;
@@ -119,6 +120,7 @@ export default function Home() {
 		try {
 			console.log(metadata);
 			console.log(editorContent);
+			saveArticleR2({ key: "test", article: editorContent });
 		} catch (error) {
 			console.error(error);
 		} finally {

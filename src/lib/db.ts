@@ -28,6 +28,7 @@ interface D1Result<T> {
 
 interface Env {
 	NEXTJS_ENV: string;
+	posts: R2Bucket;
 	DB: D1Database;
 	ASSETS: Fetcher;
 }
@@ -39,6 +40,15 @@ export async function getDB(): Promise<D1Database> {
 		throw new Error("Database not found in environment");
 	}
 	return db;
+}
+
+export async function getR2(): Promise<R2Bucket> {
+	const env = (await getCloudflareContext()).env as Env;
+	const r2 = env.posts as unknown as R2Bucket;
+	if (!r2) {
+		throw new Error("Database not found in environment");
+	}
+	return r2;
 }
 
 export async function getMetadataTypes(): Promise<MetadataTypes> {
@@ -90,4 +100,13 @@ export async function getMetadataTypes(): Promise<MetadataTypes> {
 			tags: [],
 		};
 	}
+}
+
+export async function saveArticleR2({
+	key,
+	article,
+}: { key: string; article: string }) {
+	const r2 = await getR2();
+	await r2.put(key, article);
+	return;
 }

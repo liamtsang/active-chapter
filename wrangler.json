@@ -24,6 +24,12 @@
       "database_name": "active-chapter-articles",
       "database_id": "bee1859e-a8f3-4172-828c-03a2a0c99dd5"
     }
+  ],
+  "r2_buckets": [
+    {
+      "bucket_name": "posts",
+      "binding": "posts"
+    }
   ]
   /**
    * Smart Placement

@@ -24,6 +24,8 @@ const Tiptap: React.FC<TiptapProps> = ({ onContentChange, hasErrors }) => {
 		content: "<p>Hello World! 🌎️</p>",
 		onUpdate: ({ editor }) => {
 			onContentChange(editor.getHTML());
+			console.log(editor.getText());
+			console.log(editor.getJSON());
 		},
 	});
 
