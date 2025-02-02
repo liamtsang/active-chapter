@@ -15,7 +15,7 @@ export const articleColumnVariants = {
 		width: 0,
 	},
 	expanded: {
-		width: "66.6666666vw",
+		width: "calc(66.6666666vw - 48px)",
 	},
 	full: {
 		width: "calc(100vw - 72px)",

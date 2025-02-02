@@ -3,21 +3,19 @@ import { useReducer, useState } from "react";
 import { Header } from "../components/Header";
 import { Main } from "../components/Main";
 import { columnReducer, initialColumn } from "@/components/columnReducer";
-import type { MDXContent } from "mdx/types";
-import Welcome from "@/markdown/welcome.mdx";
 
 export default function Home() {
 	const [columnState, dispatch] = useReducer(columnReducer, initialColumn);
 	const [hoveredColumn, setHoveredColumn] = useState<string | null>(null);
 
-	const toggleArticle = (content: MDXContent) => {
+	const toggleArticle = (content: string) => {
 		if (
 			columnState.article.open === "expanded" &&
 			content !== columnState.article.content
 		) {
 			dispatch({ type: "change-article", content });
 		} else if (columnState.article.open === "expanded") {
-			dispatch({ type: "default", content: Welcome });
+			dispatch({ type: "default", content: "" });
 		} else if (columnState.article.open === "closed") {
 			dispatch({ type: "open-article", content });
 		}

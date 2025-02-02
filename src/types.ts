@@ -1,5 +1,3 @@
-import type { MDXContent } from "mdx/types";
-
 export type ValidColumnStates = "full" | "closed" | "third" | "expanded";
 
 export type ColumnState = {
@@ -8,7 +6,7 @@ export type ColumnState = {
 	};
 	article: {
 		open: ValidColumnStates;
-		content: MDXContent;
+		content: string;
 	};
 	shop: {
 		open: ValidColumnStates;
@@ -20,7 +18,7 @@ export type ColumnState = {
 
 export type Action = {
 	type: string;
-	content: MDXContent;
+	content: string;
 };
 
 export interface Article {

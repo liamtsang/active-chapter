@@ -1,6 +1,7 @@
 "use server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { D1Database } from "@cloudflare/workers-types";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 // Types for our combo box items
 export interface MetadataItem {
@@ -41,6 +42,35 @@ interface Env {
 	posts: R2Bucket;
 	DB: D1Database;
 	ASSETS: Fetcher;
+}
+
+export interface ArticleLink {
+	id: string;
+	day: string;
+	month: string;
+	title: string;
+	article: {
+		content: string;
+		metadata: {
+			title: string;
+			author: string;
+			publishDate: Date;
+			tags: string[];
+			journal: string;
+			medium: string;
+		};
+	};
+}
+
+interface ArticleRow {
+	id: string;
+	title: string;
+	publish_date: string;
+	content_hash: string;
+	author: string;
+	journal: string;
+	medium: string;
+	tags: string | null;
 }
 
 export async function getDB(): Promise<D1Database> {
@@ -222,7 +252,7 @@ export async function saveArticle(
 				),
 			);
 		}
-
+		revalidateTag("articles");
 		return articleId;
 	} catch (error) {
 		console.error("Error saving article:", error);
@@ -238,6 +268,77 @@ export async function saveArticleR2({
 	await r2.put(key, article);
 	return;
 }
+
+export const getArticleLinks = unstable_cache(
+	async () => {
+		const db = await getDB();
+
+		try {
+			const result = (await db
+				.prepare(`
+        SELECT 
+          a.id,
+          a.title,
+          a.publish_date,
+          a.content_hash,
+          au.name as author,
+          j.name as journal,
+          m.name as medium,
+          GROUP_CONCAT(t.name) as tags
+        FROM articles a
+        JOIN authors au ON a.author_id = au.id
+        JOIN journals j ON a.journal_id = j.id
+        JOIN mediums m ON a.medium_id = m.id
+        LEFT JOIN article_tags at ON a.id = at.article_id
+        LEFT JOIN tags t ON at.tag_id = t.id
+        GROUP BY a.id
+        ORDER BY a.publish_date DESC
+      `)
+				.all()) as D1Result<ArticleRow>;
+
+			const r2 = await getR2();
+
+			const articleLinks: ArticleLink[] = await Promise.all(
+				result.results.map(async (row: ArticleRow) => {
+					const publishDate = new Date(row.publish_date);
+
+					const content = await r2.get(row.content_hash);
+					const articleContent = content ? await content.text() : "";
+
+					return {
+						id: row.id,
+						day: publishDate.getDate().toString().padStart(2, "0"),
+						month: publishDate
+							.toLocaleString("en-US", { month: "short" })
+							.toUpperCase(),
+						title: row.title,
+						article: {
+							content: articleContent,
+							metadata: {
+								title: row.title,
+								author: row.author,
+								publishDate: publishDate,
+								tags: row.tags ? row.tags.split(",") : [],
+								journal: row.journal,
+								medium: row.medium,
+							},
+						},
+					};
+				}),
+			);
+
+			return articleLinks;
+		} catch (error) {
+			console.error("Error fetching articles:", error);
+			throw new Error("Failed to fetch articles");
+		}
+	},
+	["articles-list"],
+	{
+		revalidate: 60,
+		tags: ["articles"],
+	},
+);
 
 // Utility function to slugify strings
 // function slugify(text: string): string {

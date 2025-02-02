@@ -1,9 +1,8 @@
 import type { ColumnState, Action } from "@/types";
-import Welcome from "@/markdown/welcome.mdx";
 
 export const initialColumn: ColumnState = {
 	home: { open: "third" },
-	article: { open: "closed", content: Welcome },
+	article: { open: "closed", content: "<h1>Blah</h1>" },
 	shop: { open: "third" },
 	about: { open: "third" },
 };

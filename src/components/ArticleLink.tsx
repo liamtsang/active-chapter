@@ -1,5 +1,3 @@
-import type { MDXContent } from "mdx/types";
-
 export const ArticleLink = ({
 	day,
 	month,
@@ -10,8 +8,8 @@ export const ArticleLink = ({
 	day: string;
 	month: string;
 	title: string;
-	article: MDXContent;
-	toggleArticle: (content: MDXContent) => void;
+	article: string;
+	toggleArticle: (content: string) => void;
 }) => (
 	<li
 		onClick={() => toggleArticle(article)}
@@ -21,6 +19,6 @@ export const ArticleLink = ({
 			<div>{month}</div>
 			<div>{day}</div>
 		</div>
-		<h2>{title} →</h2>
+		<h2 className="uppercase">{title} →</h2>
 	</li>
 );

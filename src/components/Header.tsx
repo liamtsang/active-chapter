@@ -7,7 +7,6 @@ import {
 	aboutColumnVariants,
 } from "@/components/animations";
 import { NumberBadge } from "@/components/NumberBadge";
-import Welcome from "@/markdown/welcome.mdx";
 
 interface HeaderProps {
 	columnState?: ColumnState;
@@ -46,9 +45,9 @@ export const Header = ({
 				initial={"third"}
 				onClick={() => {
 					if (columnState?.home.open === "full") {
-						dispatch({ type: "default", content: Welcome });
+						dispatch({ type: "default", content: "" });
 					} else {
-						dispatch({ type: "open-home", content: Welcome });
+						dispatch({ type: "open-home", content: "" });
 					}
 				}}
 				className={`${getBgColor("home", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
@@ -77,7 +76,7 @@ export const Header = ({
 									content: columnState.article.content,
 								});
 							} else {
-								dispatch({ type: "full-article", content: Welcome });
+								dispatch({ type: "full-article", content: "" });
 							}
 						}}
 						className={`${getBgColor("article", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
@@ -99,9 +98,9 @@ export const Header = ({
 				}}
 				onClick={() => {
 					if (columnState?.shop.open === "full") {
-						dispatch({ type: "default", content: Welcome });
+						dispatch({ type: "default", content: "" });
 					} else {
-						dispatch({ type: "open-shop", content: Welcome });
+						dispatch({ type: "open-shop", content: "" });
 					}
 				}}
 				className={`${getBgColor("shop", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
@@ -121,9 +120,9 @@ export const Header = ({
 				}}
 				onClick={() => {
 					if (columnState?.about.open === "full") {
-						dispatch({ type: "default", content: Welcome });
+						dispatch({ type: "default", content: "" });
 					} else {
-						dispatch({ type: "open-about", content: Welcome });
+						dispatch({ type: "open-about", content: "" });
 					}
 				}}
 				className={`${getBgColor("about", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}

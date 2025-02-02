@@ -10,14 +10,13 @@ import { ArticleLink } from "./ArticleLink";
 import { SelectedArticle } from "./SelectedArticle";
 import { Shop } from "./Shop";
 import { About } from "./About";
-import type { MDXContent } from "mdx/types";
-import sampleArticle from "@/markdown/HOW TO WRITE ABOUT MACHINES.mdx";
-import sampleArticleTwo from "@/markdown/welcome.mdx";
+import { useState, useEffect } from "react";
+import { type ArticleLink as ArticleLinkType, getArticleLinks } from "@/lib/db";
 
 type MainProps = {
 	columnState?: ColumnState;
 	dispatch: (value: Action) => void;
-	toggleArticle: (content: MDXContent) => void;
+	toggleArticle: (content: string) => void;
 	onColumnHover: (column: string | null) => void;
 };
 
@@ -52,20 +51,7 @@ export const Main = ({
 				className="font-space bg-white outline outline-black outline-[1px] h-dvh"
 			>
 				<motion.ul layout="position" className="cursor-pointer">
-					<ArticleLink
-						day="08"
-						month="JAN"
-						title="WHY MARGINALIZED ART MATTERS"
-						article={sampleArticle}
-						toggleArticle={toggleArticle}
-					/>
-					<ArticleLink
-						day="12"
-						month="DEC"
-						title="HOW TO EAT RAMEN"
-						article={sampleArticleTwo}
-						toggleArticle={toggleArticle}
-					/>
+					<ArticlesList toggleArticle={toggleArticle} />{" "}
 				</motion.ul>
 			</motion.section>
 			<AnimatePresence mode="popLayout">
@@ -127,3 +113,50 @@ export const Main = ({
 		</motion.main>
 	);
 };
+
+export default function ArticlesList({
+	toggleArticle,
+}: { toggleArticle: (content: string) => void }) {
+	const [articles, setArticles] = useState<ArticleLinkType[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		async function loadArticles() {
+			try {
+				const fetchedArticles = await getArticleLinks();
+				setArticles(fetchedArticles);
+			} catch (err) {
+				setError("Failed to load articles");
+				console.error(err);
+			} finally {
+				setIsLoading(false);
+			}
+		}
+
+		loadArticles();
+	}, []);
+
+	if (isLoading) {
+		return <div>Loading articles...</div>;
+	}
+
+	if (error) {
+		return <div>Error: {error}</div>;
+	}
+
+	return (
+		<div className="space-y-4">
+			{articles.map((article) => (
+				<ArticleLink
+					key={article.id}
+					day={article.day}
+					month={article.month}
+					title={article.title}
+					article={article.article.content}
+					toggleArticle={toggleArticle}
+				/>
+			))}
+		</div>
+	);
+}
