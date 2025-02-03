@@ -149,8 +149,11 @@ export default function ArticlesList({
 			{articles.map((article) => (
 				<ArticleLink
 					key={article.id}
-					day={article.publishDate.getDate().toString().padStart(2, "0")}
-					month={article.publishDate
+					day={new Date(article.publishDate)
+						.getDate()
+						.toString()
+						.padStart(2, "0")}
+					month={new Date(article.publishDate)
 						.toLocaleString("en-US", { month: "short" })
 						.toUpperCase()}
 					title={article.title}
