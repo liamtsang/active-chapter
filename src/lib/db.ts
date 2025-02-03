@@ -2,6 +2,7 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { D1Database } from "@cloudflare/workers-types";
 import { revalidateTag, unstable_cache } from "next/cache";
+import type { Article, Env } from "@/types";
 
 // Types for our combo box items
 export interface MetadataItem {
@@ -29,19 +30,13 @@ export interface SaveArticleRequest {
 	journal: string;
 	medium: string;
 	content: string;
+	coverImage?: string;
 }
 
 interface D1Result<T> {
 	results: T[];
 	success: boolean;
 	meta?: unknown;
-}
-
-interface Env {
-	NEXTJS_ENV: string;
-	posts: R2Bucket;
-	DB: D1Database;
-	ASSETS: Fetcher;
 }
 
 export interface ArticleLink {
@@ -71,6 +66,7 @@ interface ArticleRow {
 	journal: string;
 	medium: string;
 	tags: string | null;
+	cover_image: string;
 }
 
 export async function getDB(): Promise<D1Database> {
@@ -226,8 +222,9 @@ export async function saveArticle(
         journal_id, 
         medium_id, 
         publish_date,
-        content_hash
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        content_hash,
+        cover_image
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `)
 			.bind(
 				articleId,
@@ -237,6 +234,7 @@ export async function saveArticle(
 				mediumResult.results[0].id,
 				new Date(articleData.publishDate).toISOString(),
 				articleId, // Using the same UUID as R2 key
+				articleData.coverImage,
 			)
 			.run();
 
@@ -272,7 +270,6 @@ export async function saveArticleR2({
 export const getArticleLinks = unstable_cache(
 	async () => {
 		const db = await getDB();
-
 		try {
 			const result = (await db
 				.prepare(`
@@ -281,6 +278,7 @@ export const getArticleLinks = unstable_cache(
           a.title,
           a.publish_date,
           a.content_hash,
+          a.cover_image,
           au.name as author,
           j.name as journal,
           m.name as medium,
@@ -297,36 +295,24 @@ export const getArticleLinks = unstable_cache(
 				.all()) as D1Result<ArticleRow>;
 
 			const r2 = await getR2();
-
-			const articleLinks: ArticleLink[] = await Promise.all(
+			const articleLinks: Article[] = await Promise.all(
 				result.results.map(async (row: ArticleRow) => {
 					const publishDate = new Date(row.publish_date);
-
 					const content = await r2.get(row.content_hash);
 					const articleContent = content ? await content.text() : "";
-
 					return {
 						id: row.id,
-						day: publishDate.getDate().toString().padStart(2, "0"),
-						month: publishDate
-							.toLocaleString("en-US", { month: "short" })
-							.toUpperCase(),
 						title: row.title,
-						article: {
-							content: articleContent,
-							metadata: {
-								title: row.title,
-								author: row.author,
-								publishDate: publishDate,
-								tags: row.tags ? row.tags.split(",") : [],
-								journal: row.journal,
-								medium: row.medium,
-							},
-						},
+						author: row.author,
+						journal: row.journal,
+						medium: row.medium,
+						publishDate: publishDate,
+						tags: row.tags ? row.tags.split(",") : [],
+						content: articleContent,
+						coverImage: row.cover_image || "", // Provide a default empty string if no cover image
 					};
 				}),
 			);
-
 			return articleLinks;
 		} catch (error) {
 			console.error("Error fetching articles:", error);
@@ -339,6 +325,36 @@ export const getArticleLinks = unstable_cache(
 		tags: ["articles"],
 	},
 );
+
+// const cf = await getCloudflareContext();
+// const env = cf.env as unknown as Env;
+
+export async function uploadImage({ formData }: { formData: FormData }) {
+	try {
+		const response = await fetch(
+			// "https://liamt:sm00thie@active-chapter.liamtsang.workers.dev/api/images/upload",
+			"/api/images/upload",
+			{
+				method: "PUT",
+				headers: {
+					Authorization: `Basic ${btoa("liamt:sm00thie")}`,
+				},
+				body: formData,
+			},
+		);
+
+		if (!response.ok) {
+			throw new Error(`Upload failed: ${response.statusText}`);
+		}
+
+		const key = await response.text();
+		// Return the URL to access the image
+		return `https://active-chapter.liamtsang.workers.dev/api/images/${key}`;
+	} catch (error) {
+		console.error("Upload error:", error);
+		throw error;
+	}
+}
 
 // Utility function to slugify strings
 // function slugify(text: string): string {

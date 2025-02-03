@@ -19,6 +19,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { ImageUpload } from "@/components/ImageUpload";
 import { format } from "date-fns";
 import { useEffect } from "react";
 import { getMetadataTypes, type MetadataTypes } from "@/lib/db";
@@ -179,6 +180,7 @@ const MetadataForm: React.FC<MetadataFormProps> = ({
 		tags: [] as string[],
 		journal: "",
 		medium: "",
+		coverImage: "",
 	});
 
 	const [metadataTypes, setMetadataTypes] = React.useState<MetadataTypes>({
@@ -229,6 +231,14 @@ const MetadataForm: React.FC<MetadataFormProps> = ({
 			</CardHeader>
 			<CardContent>
 				<form className="space-y-6">
+					<div className="space-y-2">
+						<Label>Cover Image</Label>
+						<ImageUpload
+							onImageUpload={(imageUrl) =>
+								setFormData((prev) => ({ ...prev, coverImage: imageUrl }))
+							}
+						/>
+					</div>
 					<div className="space-y-2">
 						<Label htmlFor="title">Title</Label>
 						<Input

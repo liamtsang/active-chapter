@@ -45,9 +45,9 @@ export const Header = ({
 				initial={"third"}
 				onClick={() => {
 					if (columnState?.home.open === "full") {
-						dispatch({ type: "default", content: "" });
+						dispatch({ type: "default", article: null });
 					} else {
-						dispatch({ type: "open-home", content: "" });
+						dispatch({ type: "open-home", article: null });
 					}
 				}}
 				className={`${getBgColor("home", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
@@ -73,10 +73,10 @@ export const Header = ({
 							if (columnState?.article.open === "full") {
 								dispatch({
 									type: "open-article",
-									content: columnState.article.content,
+									article: columnState.article.article,
 								});
 							} else {
-								dispatch({ type: "full-article", content: "" });
+								dispatch({ type: "full-article", article: null });
 							}
 						}}
 						className={`${getBgColor("article", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
@@ -98,9 +98,9 @@ export const Header = ({
 				}}
 				onClick={() => {
 					if (columnState?.shop.open === "full") {
-						dispatch({ type: "default", content: "" });
+						dispatch({ type: "default", article: null });
 					} else {
-						dispatch({ type: "open-shop", content: "" });
+						dispatch({ type: "open-shop", article: null });
 					}
 				}}
 				className={`${getBgColor("shop", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
@@ -120,9 +120,9 @@ export const Header = ({
 				}}
 				onClick={() => {
 					if (columnState?.about.open === "full") {
-						dispatch({ type: "default", content: "" });
+						dispatch({ type: "default", article: null });
 					} else {
-						dispatch({ type: "open-about", content: "" });
+						dispatch({ type: "open-about", article: null });
 					}
 				}}
 				className={`${getBgColor("about", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}

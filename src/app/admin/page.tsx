@@ -26,6 +26,7 @@ interface Metadata {
 	tags: string[];
 	journal: string;
 	medium: string;
+	coverImage: string;
 	[key: string]: unknown;
 }
 
@@ -76,7 +77,6 @@ export default function Home() {
 
 	const handleMetadataChange = (newMetadata: Metadata) => {
 		setMetadata(newMetadata);
-		console.log(newMetadata);
 		setHasUnsavedChanges(true);
 	};
 
@@ -126,6 +126,7 @@ export default function Home() {
 				journal: metadata.journal,
 				medium: metadata.medium,
 				content: editorContent,
+				coverImage: metadata.coverImage,
 			});
 
 			toast({

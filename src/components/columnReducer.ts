@@ -2,7 +2,7 @@ import type { ColumnState, Action } from "@/types";
 
 export const initialColumn: ColumnState = {
 	home: { open: "third" },
-	article: { open: "closed", content: "<h1>Blah</h1>" },
+	article: { open: "closed", article: null },
 	shop: { open: "third" },
 	about: { open: "third" },
 };
@@ -15,49 +15,49 @@ export function columnReducer(
 		case "default":
 			return {
 				home: { open: "third" },
-				article: { open: "closed", content: columns.article.content },
+				article: { open: "closed", article: columns.article.article },
 				shop: { open: "third" },
 				about: { open: "third" },
 			};
 		case "open-article":
 			return {
 				home: { open: "third" },
-				article: { open: "expanded", content: action.content },
+				article: { open: "expanded", article: action.article },
 				shop: { open: "closed" },
 				about: { open: "closed" },
 			};
 		case "full-article":
 			return {
 				home: { open: "closed" },
-				article: { open: "full", content: columns.article.content },
+				article: { open: "full", article: columns.article.article },
 				shop: { open: "closed" },
 				about: { open: "closed" },
 			};
 		case "change-article":
 			return {
 				home: { open: "third" },
-				article: { open: columns.article.open, content: action.content },
+				article: { open: columns.article.open, article: action.article },
 				shop: { open: "closed" },
 				about: { open: "closed" },
 			};
 		case "open-shop":
 			return {
 				home: { open: "closed" },
-				article: { open: "closed", content: columns.article.content },
+				article: { open: "closed", article: columns.article.article },
 				shop: { open: "full" },
 				about: { open: "closed" },
 			};
 		case "open-home":
 			return {
 				home: { open: "full" },
-				article: { open: "closed", content: columns.article.content },
+				article: { open: "closed", article: columns.article.article },
 				shop: { open: "closed" },
 				about: { open: "closed" },
 			};
 		case "open-about":
 			return {
 				home: { open: "closed" },
-				article: { open: "closed", content: columns.article.content },
+				article: { open: "closed", article: columns.article.article },
 				shop: { open: "closed" },
 				about: { open: "full" },
 			};

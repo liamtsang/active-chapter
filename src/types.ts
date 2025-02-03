@@ -1,3 +1,11 @@
+export interface Env {
+	NEXTJS_ENV: string;
+	posts: R2Bucket;
+	DB: D1Database;
+	IMAGES: R2Bucket;
+	ASSETS: Fetcher;
+}
+
 export type ValidColumnStates = "full" | "closed" | "third" | "expanded";
 
 export type ColumnState = {
@@ -6,7 +14,7 @@ export type ColumnState = {
 	};
 	article: {
 		open: ValidColumnStates;
-		content: string;
+		article: Article | null;
 	};
 	shop: {
 		open: ValidColumnStates;
@@ -18,11 +26,11 @@ export type ColumnState = {
 
 export type Action = {
 	type: string;
-	content: string;
+	article: Article | null;
 };
 
 export interface Article {
-	id: number;
+	id: string;
 	title: string;
 	author: string;
 	journal: string;
@@ -30,6 +38,7 @@ export interface Article {
 	publishDate: Date;
 	tags: string[];
 	content: string;
+	coverImage?: string;
 }
 
 export interface ArticleFilters {
@@ -48,5 +57,6 @@ export interface Metadata {
 	tags: string[];
 	journal: string;
 	medium: string;
+	coverImage: string;
 	[key: string]: unknown;
 }

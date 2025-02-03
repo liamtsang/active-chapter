@@ -29,8 +29,18 @@
     {
       "bucket_name": "posts",
       "binding": "posts"
+    },
+    {
+      "binding": "IMAGES",
+      "bucket_name": "images"
     }
-  ]
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_CACHE_WORKERS_KV",
+      "id": "34615b88441f43a09a28b7da00dd5cc4"
+    }
+  ],
   /**
    * Smart Placement
    * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

@@ -1,3 +1,5 @@
+import type { Article } from "@/types";
+
 export const ArticleLink = ({
 	day,
 	month,
@@ -8,8 +10,8 @@ export const ArticleLink = ({
 	day: string;
 	month: string;
 	title: string;
-	article: string;
-	toggleArticle: (content: string) => void;
+	article: Article;
+	toggleArticle: (article: Article) => void;
 }) => (
 	<li
 		onClick={() => toggleArticle(article)}

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import type { ColumnState, Action } from "@/types";
+import type { ColumnState, Action, Article } from "@/types";
 import {
 	homeColumnVariants,
 	articleColumnVariants,
@@ -11,12 +11,12 @@ import { SelectedArticle } from "./SelectedArticle";
 import { Shop } from "./Shop";
 import { About } from "./About";
 import { useState, useEffect } from "react";
-import { type ArticleLink as ArticleLinkType, getArticleLinks } from "@/lib/db";
+import { getArticleLinks } from "@/lib/db";
 
 type MainProps = {
 	columnState?: ColumnState;
 	dispatch: (value: Action) => void;
-	toggleArticle: (content: string) => void;
+	toggleArticle: (article: Article) => void;
 	onColumnHover: (column: string | null) => void;
 };
 
@@ -72,7 +72,7 @@ export const Main = ({
 						onMouseLeave={() => onColumnHover(null)}
 						className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px] ml-auto"
 					>
-						<SelectedArticle article={columnState.article.content} />
+						<SelectedArticle article={columnState.article.article} />
 					</motion.section>
 				)}
 			</AnimatePresence>
@@ -116,8 +116,8 @@ export const Main = ({
 
 export default function ArticlesList({
 	toggleArticle,
-}: { toggleArticle: (content: string) => void }) {
-	const [articles, setArticles] = useState<ArticleLinkType[]>([]);
+}: { toggleArticle: (article: Article) => void }) {
+	const [articles, setArticles] = useState<Article[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
@@ -144,16 +144,17 @@ export default function ArticlesList({
 	if (error) {
 		return <div>Error: {error}</div>;
 	}
-
 	return (
 		<div className="space-y-4">
 			{articles.map((article) => (
 				<ArticleLink
 					key={article.id}
-					day={article.day}
-					month={article.month}
+					day={article.publishDate.getDate().toString().padStart(2, "0")}
+					month={article.publishDate
+						.toLocaleString("en-US", { month: "short" })
+						.toUpperCase()}
 					title={article.title}
-					article={article.article.content}
+					article={article}
 					toggleArticle={toggleArticle}
 				/>
 			))}
