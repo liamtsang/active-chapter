@@ -26,7 +26,7 @@ export const Main = ({
 	toggleArticle,
 	onColumnHover,
 }: MainProps) => {
-	console.log(dispatch);
+	// console.log(dispatch);
 	return (
 		<motion.main
 			layout="preserve-aspect"
@@ -48,7 +48,7 @@ export const Main = ({
 				}}
 				onMouseEnter={() => onColumnHover("home")}
 				onMouseLeave={() => onColumnHover(null)}
-				className="font-space bg-white outline outline-black outline-[1px] h-dvh"
+				className="z-[2] overflow-x-hidden font-space bg-white outline outline-black outline-[1px] h-dvh"
 			>
 				<motion.ul layout="position" className="cursor-pointer">
 					<ArticlesList toggleArticle={toggleArticle} />{" "}
@@ -56,7 +56,8 @@ export const Main = ({
 			</motion.section>
 			<AnimatePresence mode="popLayout">
 				{(columnState?.article.open === "full" ||
-					columnState?.article.open === "expanded") && (
+					columnState?.article.open === "expanded" ||
+					columnState?.article.open === "fullMobile") && (
 					<motion.section
 						layout="position"
 						layoutId="article-main"
@@ -145,7 +146,7 @@ export default function ArticlesList({
 		return <div>Error: {error}</div>;
 	}
 	return (
-		<div className="space-y-4">
+		<div className="space-y-0">
 			{articles.map((article) => (
 				<ArticleLink
 					key={article.id}

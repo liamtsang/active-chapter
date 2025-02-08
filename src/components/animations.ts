@@ -20,6 +20,9 @@ export const articleColumnVariants = {
 	full: {
 		width: "calc(100vw - 72px)",
 	},
+	fullMobile: {
+		width: "calc(100vw - 72px)",
+	},
 };
 
 export const shopColumnVariants = {

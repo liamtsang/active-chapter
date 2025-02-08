@@ -50,14 +50,15 @@ export const Header = ({
 						dispatch({ type: "open-home", article: null });
 					}
 				}}
-				className={`${getBgColor("home", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
+				className={`${getBgColor("home", hoveredColumns)} z-[2] overflow-x-hidden cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
 			>
 				Home
 				<NumberBadge number="1" />
 			</motion.section>
 			<AnimatePresence mode="popLayout">
 				{(columnState?.article.open === "full" ||
-					columnState?.article.open === "expanded") && (
+					columnState?.article.open === "expanded" ||
+					columnState?.article.open === "fullMobile") && (
 					<motion.section
 						layout
 						layoutId="article"
@@ -75,6 +76,8 @@ export const Header = ({
 									type: "open-article",
 									article: columnState.article.article,
 								});
+							} else if (columnState.article.open === "fullMobile") {
+								dispatch({ type: "default", article: null });
 							} else {
 								dispatch({ type: "full-article", article: null });
 							}

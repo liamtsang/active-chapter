@@ -72,8 +72,8 @@ const Combobox: React.FC<ComboboxProps> = ({
 	const handleAddNew = () => {
 		if (search) {
 			const newItem = {
-				label: search,
-				value: search.toLowerCase().replace(/\s+/g, "-"),
+				label: search.toLowerCase().replace(/\s+/g, "-"),
+				value: search,
 			};
 			onAddItem(newItem); // Add the item to the parent's state
 			handleSelect(newItem.value); // Select the new item

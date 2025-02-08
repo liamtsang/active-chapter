@@ -26,6 +26,13 @@ export function columnReducer(
 				shop: { open: "closed" },
 				about: { open: "closed" },
 			};
+		case "open-article-mobile":
+			return {
+				home: { open: "closed" },
+				article: { open: "fullMobile", article: action.article },
+				shop: { open: "closed" },
+				about: { open: "closed" },
+			};
 		case "full-article":
 			return {
 				home: { open: "closed" },

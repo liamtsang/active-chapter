@@ -1,14 +1,14 @@
 export const About = () => {
 	return (
 		<section className="space-y-2 p-4">
-			<h2 className="text-3xl font-medium">Active Chapter</h2>
-			<h3 className="text-base/5 font-medium">
+			<h2 className="text-2xl/5 md:text-3xl font-medium">Active Chapter</h2>
+			<h3 className="text-base/5 font-instrument font-medium">
 				We are a publishing and art collective, and we like you and we love you
 				and we need you.
 			</h3>
 			<div
 				id="body-text"
-				className="font-instrument text-base/5 indent-8 space-y-2 font-instrument "
+				className="font-instrument text-base/5 indent-8 space-y-2"
 			>
 				<p>
 					We believe in community through friendship, and knowledge through

@@ -6,7 +6,12 @@ export interface Env {
 	ASSETS: Fetcher;
 }
 
-export type ValidColumnStates = "full" | "closed" | "third" | "expanded";
+export type ValidColumnStates =
+	| "full"
+	| "closed"
+	| "third"
+	| "expanded"
+	| "fullMobile";
 
 export type ColumnState = {
 	home: {
