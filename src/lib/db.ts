@@ -326,6 +326,42 @@ export const getArticleLinks = unstable_cache(
 	},
 );
 
+export async function deleteArticle(id: string) {
+	const db = await getDB();
+	const r2 = await getR2();
+
+	try {
+		// Get article info to delete from R2
+		const article = await db
+			.prepare(`
+      SELECT content_hash, cover_image FROM articles WHERE id = ?
+    `)
+			.bind(id)
+			.first();
+
+		if (!article) throw new Error("Article not found");
+
+		// Delete from R2
+		if (article.content_hash) {
+			await r2.delete(article.content_hash as string);
+		}
+		if (article.cover_image) {
+			await r2.delete(article.cover_image as string);
+		}
+
+		// Delete from D1
+		await db.batch([
+			db.prepare("DELETE FROM article_tags WHERE article_id = ?").bind(id),
+			db.prepare("DELETE FROM articles WHERE id = ?").bind(id),
+		]);
+
+		return true;
+	} catch (error) {
+		console.error("Error deleting article:", error);
+		throw error;
+	}
+}
+
 // const cf = await getCloudflareContext();
 // const env = cf.env as unknown as Env;
 
