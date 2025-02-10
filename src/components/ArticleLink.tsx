@@ -15,7 +15,7 @@ export const ArticleLink = ({
 }) => (
 	<li
 		onClick={() => toggleArticle(article)}
-		className="text-base/4 gap-2 md:leading-6 flex flex-row md:gap-6 border-black border-b-[1px] pl-2 md:pl-6 py-2"
+		className="text-base/4 md:text-2xl/5 gap-2 md:leading-6 flex flex-row md:gap-6 border-black border-b-[1px] pl-2 md:pl-2 py-2"
 	>
 		<div className="hidden md:block">
 			<div>{month}</div>

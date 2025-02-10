@@ -10,14 +10,16 @@ import { ArticleLink } from "./ArticleLink";
 import { SelectedArticle } from "./SelectedArticle";
 import { Shop } from "./Shop";
 import { About } from "./About";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { getArticleLinks } from "@/lib/db";
+import type { Filters } from "@/app/page";
 
 type MainProps = {
 	columnState?: ColumnState;
 	dispatch: (value: Action) => void;
 	toggleArticle: (article: Article) => void;
 	onColumnHover: (column: string | null) => void;
+	filters: Filters;
 };
 
 export const Main = ({
@@ -25,8 +27,8 @@ export const Main = ({
 	dispatch,
 	toggleArticle,
 	onColumnHover,
+	filters,
 }: MainProps) => {
-	// console.log(dispatch);
 	return (
 		<motion.main
 			layout="preserve-aspect"
@@ -51,7 +53,7 @@ export const Main = ({
 				className="z-[2] overflow-x-hidden font-space bg-white outline outline-black outline-[1px] h-dvh"
 			>
 				<motion.ul layout="position" className="cursor-pointer">
-					<ArticlesList toggleArticle={toggleArticle} />{" "}
+					<ArticlesList filters={filters} toggleArticle={toggleArticle} />{" "}
 				</motion.ul>
 			</motion.section>
 			<AnimatePresence mode="popLayout">
@@ -117,11 +119,37 @@ export const Main = ({
 
 export default function ArticlesList({
 	toggleArticle,
-}: { toggleArticle: (article: Article) => void }) {
+	filters,
+}: {
+	toggleArticle: (article: Article) => void;
+	filters: Filters;
+}) {
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
+	const filteredArticles = useMemo(() => {
+		if (!filters) return articles;
+		console.log(filters);
+		console.log(articles);
+		return articles.filter((article) => {
+			const authorMatch =
+				filters.authors.length === 0 ||
+				filters.authors.includes(article.author);
+			const journalMatch =
+				filters.journals.length === 0 ||
+				filters.journals.includes(article.journal);
+			const mediumMatch =
+				filters.mediums.length === 0 ||
+				filters.mediums.includes(article.medium);
+			const tagMatch =
+				filters.tags.length === 0 ||
+				article.tags.some((tag) => filters.tags.includes(tag));
+			return authorMatch && journalMatch && mediumMatch && tagMatch;
+		});
+	}, [filters, articles]);
+
+	// Load articles only once
 	useEffect(() => {
 		async function loadArticles() {
 			try {
@@ -134,7 +162,6 @@ export default function ArticlesList({
 				setIsLoading(false);
 			}
 		}
-
 		loadArticles();
 	}, []);
 
@@ -145,9 +172,13 @@ export default function ArticlesList({
 	if (error) {
 		return <div>Error: {error}</div>;
 	}
+
 	return (
 		<div className="space-y-0">
-			{articles.map((article) => (
+			{filteredArticles.length === 0 && (
+				<div>No posts matching those filters..</div>
+			)}
+			{filteredArticles.map((article) => (
 				<ArticleLink
 					key={article.id}
 					day={new Date(article.publishDate)

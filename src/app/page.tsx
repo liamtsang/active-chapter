@@ -5,11 +5,25 @@ import { Main } from "../components/Main";
 import { columnReducer, initialColumn } from "@/components/columnReducer";
 import type { Article } from "@/types";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
+import Marquee from "@/components/Marquee";
+import MyMarquee from "@/components/Marquee";
+
+export interface Filters {
+	authors: string[];
+	journals: string[];
+	mediums: string[];
+	tags: string[];
+}
 
 export default function Home() {
 	const [columnState, dispatch] = useReducer(columnReducer, initialColumn);
 	const [hoveredColumn, setHoveredColumn] = useState<string | null>(null);
-
+	const [filters, setFilters] = useState<Filters>({
+		authors: [],
+		journals: [],
+		mediums: [],
+		tags: [],
+	});
 	const { isMobile, isTablet, isDesktop } = useScreenDetector();
 
 	const toggleArticle = (article: Article) => {
@@ -36,8 +50,15 @@ export default function Home() {
 				dispatch={dispatch}
 				hoveredColumns={hoveredColumn}
 			/>
-			<div className="w-full h-12 border-black border-b-[1px]" />
+			<div className="h-12 min-h-12">
+				<MyMarquee
+					columnState={columnState}
+					filters={filters}
+					setFilters={setFilters}
+				/>
+			</div>
 			<Main
+				filters={filters}
 				columnState={columnState}
 				dispatch={dispatch}
 				toggleArticle={toggleArticle}

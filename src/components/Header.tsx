@@ -31,7 +31,7 @@ export const Header = ({
 				duration: 0.3,
 				layout: { duration: 0.3 },
 			}}
-			className="font-space flex flex-cols text-2xl outline outline-black outline-[1px] h-12 overflow-x-hidden"
+			className="overflow-y-clip font-space flex flex-cols text-2xl outline outline-black outline-[1px] h-12 overflow-x-hidden"
 		>
 			<motion.section
 				layout
@@ -50,7 +50,7 @@ export const Header = ({
 						dispatch({ type: "open-home", article: null });
 					}
 				}}
-				className={`${getBgColor("home", hoveredColumns)} z-[2] overflow-x-hidden cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
+				className={`${getBgColor("home", hoveredColumns)} z-[2] overflow-hidden cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
 			>
 				Home
 				<NumberBadge number="1" />

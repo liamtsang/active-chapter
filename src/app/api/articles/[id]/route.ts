@@ -1,6 +1,7 @@
 // app/api/articles/[id]/route.ts
 import * as server from "next/server";
 import { deleteArticle } from "@/lib/db";
+import { revalidateTag } from "next/cache";
 
 export async function DELETE(
 	request: server.NextRequest,
@@ -8,6 +9,7 @@ export async function DELETE(
 ) {
 	try {
 		await deleteArticle(params.id);
+		revalidateTag("articles");
 		return server.NextResponse.json({ success: true });
 	} catch (error) {
 		console.error("Error deleting article:", error);

@@ -111,7 +111,7 @@ export async function getMetadataTypes(): Promise<MetadataTypes> {
 		return {
 			authors: authors.results.map((author) => ({
 				label: author.name,
-				value: author.slug,
+				value: author.name,
 			})),
 			journals: journals.results.map((journal) => ({
 				label: journal.name,
