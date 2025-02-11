@@ -1,11 +1,12 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Marquee from "react-fast-marquee";
 import { motion, AnimatePresence } from "framer-motion";
 import Combobox from "./FilterCombobox";
-import { ColumnState } from "@/types";
+import type { ColumnState } from "@/types";
+import { getMetadataTypes } from "@/lib/db";
 
 const emojiList = ["♞", "⚃", "⚉", "⚓", "⛾", "®️", "🉐", "☣️", "❤️", "✒️"];
 
@@ -42,10 +43,7 @@ export default function MyMarquee({
 	});
 
 	useEffect(() => {
-		fetch("/api/articles/metadata")
-			.then((res) => res.json())
-			.then(setMetadata)
-			.catch(console.error);
+		getMetadataTypes().then(setMetadata);
 	}, []);
 
 	const clearFilters = () => {
@@ -61,7 +59,8 @@ export default function MyMarquee({
 		if (!columnState.home || !columnState.article) return "defaultMarquee";
 		if (
 			columnState.home.open === "full" ||
-			columnState.article.open === "expanded"
+			columnState.article.open === "expanded" ||
+			columnState.article.open === "full"
 		)
 			return "filters";
 		return "emojiMarquee";
@@ -78,9 +77,9 @@ export default function MyMarquee({
 			{contentType === "filters" && (
 				<motion.div
 					key="filters"
-					initial={{ x: -300, opacity: 1 }}
+					initial={{ x: -100, opacity: 1 }}
 					animate={{ x: 0, opacity: 1 }}
-					exit={{ x: -300, opacity: 0 }}
+					exit={{ x: -100, opacity: 0 }}
 					transition={transition}
 					className="h-12 flex flex-row"
 				>
@@ -134,9 +133,9 @@ export default function MyMarquee({
 			{contentType === "emojiMarquee" && (
 				<motion.div
 					key="emojiMarquee"
-					initial={{ x: 300, opacity: 1 }}
+					initial={{ x: 100, opacity: 1 }}
 					animate={{ x: 0, opacity: 1 }}
-					exit={{ x: 300, opacity: 0 }}
+					exit={{ x: 100, opacity: 0 }}
 					transition={transition}
 					className="min-h-12 h-12"
 				>
@@ -153,9 +152,9 @@ export default function MyMarquee({
 			{contentType === "defaultMarquee" && (
 				<motion.div
 					key="defaultMarquee"
-					initial={{ x: 300, opacity: 1 }}
+					initial={{ x: 100, opacity: 1 }}
 					animate={{ x: 0, opacity: 1 }}
-					exit={{ x: -300, opacity: 1 }}
+					exit={{ x: -100, opacity: 1 }}
 					transition={transition}
 					className="min-h-12 h-12"
 				>

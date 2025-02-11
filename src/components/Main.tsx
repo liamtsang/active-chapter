@@ -130,8 +130,6 @@ export default function ArticlesList({
 
 	const filteredArticles = useMemo(() => {
 		if (!filters) return articles;
-		console.log(filters);
-		console.log(articles);
 		return articles.filter((article) => {
 			const authorMatch =
 				filters.authors.length === 0 ||

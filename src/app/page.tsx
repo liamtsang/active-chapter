@@ -1,5 +1,5 @@
 "use client";
-import { useReducer, useState } from "react";
+import { Suspense, useReducer, useState } from "react";
 import { Header } from "../components/Header";
 import { Main } from "../components/Main";
 import { columnReducer, initialColumn } from "@/components/columnReducer";
