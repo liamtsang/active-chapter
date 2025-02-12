@@ -1,7 +1,9 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import { motion, AnimatePresence } from "framer-motion";
-import Combobox from "./FilterCombobox";
+import dynamic from "next/dynamic";
 import type { ColumnState } from "@/types";
 import { getMetadataTypes } from "@/lib/db";
 
@@ -59,20 +61,23 @@ const emojiList = [
 	"🏺",
 ];
 
+// Import Combobox with no SSR
+const Combobox = dynamic(() => import("./FilterCombobox"), {
+	ssr: false,
+});
+
 interface Filters {
 	authors: string[];
 	journals: string[];
 	mediums: string[];
 	tags: string[];
 }
-
 interface MetadataTypes {
 	authors: { label: string; value: string }[];
 	journals: { label: string; value: string }[];
 	mediums: { label: string; value: string }[];
 	tags: { label: string; value: string }[];
 }
-
 interface MyMarqueeProps {
 	columnState: ColumnState;
 	filters: Filters;
@@ -90,19 +95,29 @@ export default function MyMarquee({
 		mediums: [],
 		tags: [],
 	});
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		getMetadataTypes().then(setMetadata);
-	}, []);
+		let mounted = true;
 
-	// const clearFilters = () => {
-	// 	setFilters({
-	// 		authors: [],
-	// 		journals: [],
-	// 		mediums: [],
-	// 		tags: [],
-	// 	});
-	// };
+		async function loadMetadata() {
+			try {
+				const data = await getMetadataTypes();
+				if (mounted) {
+					setMetadata(data);
+				}
+			} finally {
+				if (mounted) {
+					setIsLoading(false);
+				}
+			}
+		}
+
+		loadMetadata();
+		return () => {
+			mounted = false;
+		};
+	}, []);
 
 	const getContentType = () => {
 		if (!columnState.home || !columnState.article) return "defaultMarquee";
@@ -116,10 +131,12 @@ export default function MyMarquee({
 	};
 
 	const contentType = getContentType();
+	const transition = { duration: 0.15 };
 
-	const transition = {
-		duration: 0.15,
-	};
+	// Show nothing during initial load to prevent hydration mismatch
+	if (typeof window === "undefined" || isLoading) {
+		return <div className="h-12" />;
+	}
 
 	return (
 		<AnimatePresence mode="wait">
@@ -178,7 +195,6 @@ export default function MyMarquee({
 					/>
 				</motion.div>
 			)}
-
 			{contentType === "emojiMarquee" && (
 				<motion.div
 					key="emojiMarquee"
@@ -197,7 +213,6 @@ export default function MyMarquee({
 					</Marquee>
 				</motion.div>
 			)}
-
 			{contentType === "defaultMarquee" && (
 				<motion.div
 					key="defaultMarquee"

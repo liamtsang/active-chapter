@@ -2,7 +2,11 @@
 import { useReducer, useState } from "react";
 import { Header } from "../components/Header";
 import { Main } from "../components/Main";
-import { columnReducer, initialColumn } from "@/components/columnReducer";
+import {
+	columnReducer,
+	getInitialStateFromURL,
+	initialColumn,
+} from "@/components/columnReducer";
 import type { Article } from "@/types";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import MyMarquee from "@/components/Marquee";
@@ -15,7 +19,11 @@ export interface Filters {
 }
 
 export default function Home() {
-	const [columnState, dispatch] = useReducer(columnReducer, initialColumn);
+	const [columnState, dispatch] = useReducer(columnReducer, {
+		...initialColumn,
+		...getInitialStateFromURL(),
+	});
+	// const [columnState, dispatch] = useReducer(columnReducer, initialColumn);
 	const [hoveredColumn, setHoveredColumn] = useState<string | null>(null);
 	const [filters, setFilters] = useState<Filters>({
 		authors: [],
