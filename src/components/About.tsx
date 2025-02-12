@@ -1,8 +1,11 @@
 export const About = () => {
 	return (
-		<section className="space-y-2 p-4">
+		<section className="space-y-8 p-4 pb-32">
 			<h2 className="text-2xl/5 md:text-3xl font-medium">Active Chapter</h2>
-			<h3 className="text-base/5 xl:text-lg/7 font-instrument font-medium">
+			<h3
+				className="text-base/5 xl:text-lg/7 font-instrument font-medium italic"
+				pb-2
+			>
 				We are a publishing and art collective, and we like you and we love you
 				and we need you.
 			</h3>
@@ -20,9 +23,40 @@ export const About = () => {
 					body and head and feet (if you have them).
 				</p>
 				<p>
-					Active Chapter is made by artists Eka Savajol, Lucia Mumma, Max Chu,
-					and XY Zhou. Our intern is Jojo Savajol.
+					Active Chapter was founded in 2024 by artists Eka Savajol, Lucia
+					Mumma, Max Chu, and XY Zhou. Our intern is Jojo Savajol.
 				</p>
+				<p>
+					Our current project is Active Chapter’s first journal, Confessions of
+					Love. We gathered these pieces from our friends, former lovers, and
+					childhood best friends. We wanted, not only to gather their thoughts
+					on love, but to gather our loved ones together, to see their passions
+					materialized, congealed, brought together in the union of a
+					collective. Next, we will be collecting work for our Summer release,
+					In the Mood for Love. Stay tuned.
+				</p>
+			</div>
+			<div>
+				<h3 className="pb-2 text-base/5 xl:text-lg/7 font-instrument font-medium italic">
+					Markets & Stockists
+				</h3>
+				<ul className="text-base/5 xl:text-lg/7">
+					<li>2025-Present Human Relations, Brooklyn, NY</li>
+					<li>2025-Present Hive Mind Books, Brooklyn, NY</li>
+					<li>2024 Trans Art Bazaar, Brooklyn, NY</li>
+					<li>2024 Furuba Market, Brooklyn, NY</li>
+					<li>2023 am:pm gallery, Brooklyn, NY</li>
+				</ul>
+			</div>
+			<div>
+				<h3 className="pb-2 text-base/5 xl:text-lg/7 font-instrument font-medium italic">
+					Markets & Stockists
+				</h3>
+				<ul className="text-base/5 xl:text-lg/7">
+					<li>
+						2025 What Can We Do? Artist Grant, Asian American Arts Alliance
+					</li>
+				</ul>
 			</div>
 		</section>
 	);
