@@ -108,3 +108,6 @@ INSERT INTO tags (name, slug) VALUES
     ('Machine Learning', 'ml'),
     ('Data Science', 'data-science'),
     ('Research', 'research');
+
+-- Add cover_image to articles table
+ALTER TABLE articles ADD COLUMN cover_image TEXT;
