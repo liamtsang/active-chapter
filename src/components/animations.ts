@@ -1,9 +1,9 @@
 export const homeColumnVariants = {
 	closed: {
-		width: "24px",
+		width: "calc(0vw + 24px)",
 	},
 	third: {
-		width: "33.333333333vw",
+		width: "calc(33.333333333vw + 0px)",
 	},
 	full: {
 		width: "calc(100vw - 48px)",
@@ -12,7 +12,7 @@ export const homeColumnVariants = {
 
 export const articleColumnVariants = {
 	closed: {
-		width: 0,
+		width: "calc(0vw + 0px)",
 	},
 	expanded: {
 		width: "calc(66.6666666vw - 48px)",
@@ -27,10 +27,10 @@ export const articleColumnVariants = {
 
 export const shopColumnVariants = {
 	closed: {
-		width: "24px",
+		width: "calc(0vw + 24px)",
 	},
 	third: {
-		width: "33.3333333333vw",
+		width: "calc(33.333333333vw + 0px)",
 	},
 	full: {
 		width: "calc(100vw - 48px)",
@@ -39,10 +39,10 @@ export const shopColumnVariants = {
 
 export const aboutColumnVariants = {
 	closed: {
-		width: "24px",
+		width: "calc(0vw + 24px)",
 	},
 	third: {
-		width: "33.3333333333vw",
+		width: "calc(33.333333333vw + 0px)",
 	},
 	full: {
 		width: "calc(100vw - 48px)",
