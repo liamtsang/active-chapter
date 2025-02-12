@@ -1,7 +1,4 @@
-import { SetStateAction, useActionState, useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import { motion, AnimatePresence } from "framer-motion";
 import Combobox from "./FilterCombobox";
@@ -46,14 +43,14 @@ export default function MyMarquee({
 		getMetadataTypes().then(setMetadata);
 	}, []);
 
-	const clearFilters = () => {
-		setFilters({
-			authors: [],
-			journals: [],
-			mediums: [],
-			tags: [],
-		});
-	};
+	// const clearFilters = () => {
+	// 	setFilters({
+	// 		authors: [],
+	// 		journals: [],
+	// 		mediums: [],
+	// 		tags: [],
+	// 	});
+	// };
 
 	const getContentType = () => {
 		if (!columnState.home || !columnState.article) return "defaultMarquee";

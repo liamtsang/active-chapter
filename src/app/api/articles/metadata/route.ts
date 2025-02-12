@@ -1,5 +1,5 @@
 // app/api/articles/route.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getMetadataTypes } from "@/lib/db";
 import { unstable_cache } from "next/cache";
 

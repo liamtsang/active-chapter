@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import type { ColumnState, Action, Article } from "@/types";
+import type { ColumnState, Article } from "@/types";
 import {
 	homeColumnVariants,
 	articleColumnVariants,
@@ -16,7 +16,6 @@ import type { Filters } from "@/app/page";
 
 type MainProps = {
 	columnState?: ColumnState;
-	dispatch: (value: Action) => void;
 	toggleArticle: (article: Article) => void;
 	onColumnHover: (column: string | null) => void;
 	filters: Filters;
@@ -24,7 +23,6 @@ type MainProps = {
 
 export const Main = ({
 	columnState,
-	dispatch,
 	toggleArticle,
 	onColumnHover,
 	filters,

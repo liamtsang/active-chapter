@@ -1,9 +1,7 @@
 import { Popover, PopoverContent } from "@radix-ui/react-popover";
-import { Check, ChevronsUpDown, Plus } from "lucide-react";
-import { Button } from "./ui/button";
+import { Check } from "lucide-react";
 import { Input } from "./ui/input";
 import { PopoverTrigger } from "./ui/popover";
-import { Label } from "./ui/label";
 import React from "react";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +14,6 @@ interface ComboboxProps {
 	items: Item[];
 	value: string | string[];
 	onChange: (value: string | string[]) => void;
-	onAddItem?: (item: Item) => void;
 	placeholder: string;
 	label: string;
 	color: string;
@@ -27,7 +24,6 @@ const Combobox: React.FC<ComboboxProps> = ({
 	items,
 	value,
 	onChange,
-	onAddItem,
 	placeholder,
 	label,
 	color,

@@ -1,5 +1,5 @@
 // app/api/articles/route.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getArticleLinks } from "@/lib/db";
 
 export async function GET() {

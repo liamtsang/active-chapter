@@ -1,11 +1,10 @@
 "use client";
-import { Suspense, useReducer, useState } from "react";
+import { useReducer, useState } from "react";
 import { Header } from "../components/Header";
 import { Main } from "../components/Main";
 import { columnReducer, initialColumn } from "@/components/columnReducer";
 import type { Article } from "@/types";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
-import Marquee from "@/components/Marquee";
 import MyMarquee from "@/components/Marquee";
 
 export interface Filters {
@@ -24,7 +23,7 @@ export default function Home() {
 		mediums: [],
 		tags: [],
 	});
-	const { isMobile, isTablet, isDesktop } = useScreenDetector();
+	const { isMobile } = useScreenDetector();
 
 	const toggleArticle = (article: Article) => {
 		if (
@@ -60,7 +59,6 @@ export default function Home() {
 			<Main
 				filters={filters}
 				columnState={columnState}
-				dispatch={dispatch}
 				toggleArticle={toggleArticle}
 				onColumnHover={setHoveredColumn}
 			/>
