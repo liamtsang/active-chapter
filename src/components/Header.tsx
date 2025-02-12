@@ -56,38 +56,34 @@ export const Header = ({
 				<NumberBadge number="1" />
 			</motion.section>
 			<AnimatePresence mode="popLayout">
-				{(columnState?.article.open === "full" ||
-					columnState?.article.open === "expanded" ||
-					columnState?.article.open === "fullMobile") && (
-					<motion.section
-						layout
-						layoutId="article"
-						variants={articleColumnVariants}
-						initial={"closed"}
-						animate={columnState?.article.open}
-						exit={"closed"}
-						transition={{
-							layout: { duration: 0.3 },
-							width: { duration: 0.3 },
-						}}
-						onClick={() => {
-							if (columnState?.article.open === "full") {
-								dispatch({
-									type: "open-article",
-									article: columnState.article.article,
-								});
-							} else if (columnState.article.open === "fullMobile") {
-								dispatch({ type: "default", article: null });
-							} else {
-								dispatch({ type: "full-article", article: null });
-							}
-						}}
-						className={`${getBgColor("article", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
-					>
-						Writings
-						<NumberBadge number="4" />
-					</motion.section>
-				)}
+				<motion.section
+					layout
+					layoutId="article"
+					variants={articleColumnVariants}
+					initial={"closed"}
+					animate={columnState?.article.open}
+					exit={"closed"}
+					transition={{
+						layout: { duration: 0.3 },
+						width: { duration: 0.3 },
+					}}
+					onClick={() => {
+						if (columnState?.article.open === "full") {
+							dispatch({
+								type: "open-article",
+								article: columnState.article.article,
+							});
+						} else if (columnState.article.open === "fullMobile") {
+							dispatch({ type: "default", article: null });
+						} else {
+							dispatch({ type: "full-article", article: null });
+						}
+					}}
+					className={`${getBgColor("article", hoveredColumns)} cursor-pointer relative outline outline-black outline-[1px] transition-colors duration-200`}
+				>
+					Writings
+					<NumberBadge number="4" />
+				</motion.section>
 			</AnimatePresence>
 			<motion.section
 				layout

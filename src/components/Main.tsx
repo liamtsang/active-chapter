@@ -55,27 +55,23 @@ export const Main = ({
 				</motion.ul>
 			</motion.section>
 			<AnimatePresence mode="popLayout">
-				{(columnState?.article.open === "full" ||
-					columnState?.article.open === "expanded" ||
-					columnState?.article.open === "fullMobile") && (
-					<motion.section
-						layout="position"
-						layoutId="article-main"
-						variants={articleColumnVariants}
-						initial={"closed"}
-						animate={columnState?.article.open}
-						exit={"closed"}
-						transition={{
-							layout: { duration: 0.3 },
-							width: { duration: 0.3 },
-						}}
-						onMouseEnter={() => onColumnHover("article")}
-						onMouseLeave={() => onColumnHover(null)}
-						className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px] ml-auto"
-					>
-						<SelectedArticle article={columnState.article.article} />
-					</motion.section>
-				)}
+				<motion.section
+					layout="position"
+					layoutId="article-main"
+					variants={articleColumnVariants}
+					initial={"closed"}
+					animate={columnState?.article.open}
+					exit={"closed"}
+					transition={{
+						layout: { duration: 0.3 },
+						width: { duration: 0.3 },
+					}}
+					onMouseEnter={() => onColumnHover("article")}
+					onMouseLeave={() => onColumnHover(null)}
+					className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px] ml-0"
+				>
+					<SelectedArticle article={columnState.article.article} />
+				</motion.section>
 			</AnimatePresence>
 			<motion.section
 				layout="position"

@@ -1,5 +1,5 @@
 "use client";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Header } from "../components/Header";
 import { Main } from "../components/Main";
 import {
@@ -10,6 +10,7 @@ import {
 import type { Article } from "@/types";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 import MyMarquee from "@/components/Marquee";
+import { useSearchParams } from "next/navigation";
 
 export interface Filters {
 	authors: string[];
@@ -21,9 +22,42 @@ export interface Filters {
 export default function Home() {
 	const [columnState, dispatch] = useReducer(columnReducer, {
 		...initialColumn,
-		...getInitialStateFromURL(),
+		...getInitialStateFromURL(), // Needs to be client side for window
 	});
-	// const [columnState, dispatch] = useReducer(columnReducer, initialColumn);
+
+	const params = useSearchParams();
+
+	useEffect(() => {
+		const article = params.get("article");
+		if (!article) return;
+
+		const abortController = new AbortController();
+
+		fetch(`/api/articles/title/${encodeURIComponent(article)}`, {
+			signal: abortController.signal,
+		})
+			.then((res) => res.json())
+			.then((article) => {
+				if (article) {
+					dispatch({
+						type: "open-article",
+						article: article.article[0],
+					});
+				}
+			})
+			.catch((error) => {
+				if (error.name === "AbortError") {
+					// Handle abort silently
+					return;
+				}
+				console.error(error);
+			});
+
+		return () => {
+			abortController.abort();
+		};
+	}, []);
+
 	const [hoveredColumn, setHoveredColumn] = useState<string | null>(null);
 	const [filters, setFilters] = useState<Filters>({
 		authors: [],

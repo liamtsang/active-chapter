@@ -326,6 +326,62 @@ export const getArticleLinks = unstable_cache(
 	},
 );
 
+export async function getArticlesByTitle(title: string) {
+	const db = await getDB();
+	try {
+		const result = (await db
+			.prepare(`
+      SELECT 
+        a.id,
+        a.title,
+        a.publish_date,
+        a.content_hash,
+        a.cover_image,
+        au.name as author,
+        j.name as journal,
+        m.name as medium,
+        GROUP_CONCAT(t.name) as tags
+      FROM articles a
+      JOIN authors au ON a.author_id = au.id
+      JOIN journals j ON a.journal_id = j.id
+      JOIN mediums m ON a.medium_id = m.id
+      LEFT JOIN article_tags at ON a.id = at.article_id
+      LEFT JOIN tags t ON at.tag_id = t.id
+      WHERE a.title LIKE ?
+      GROUP BY a.id
+      ORDER BY a.publish_date DESC
+    `)
+			.bind(`%${title}%`)
+			.all()) as D1Result<ArticleRow>;
+
+		const r2 = await getR2();
+
+		const articles = await Promise.all(
+			result.results.map(async (row) => {
+				const content = await r2.get(row.content_hash);
+				const articleContent = content ? await content.text() : "";
+
+				return {
+					id: row.id,
+					title: row.title,
+					author: row.author,
+					journal: row.journal,
+					medium: row.medium,
+					publishDate: new Date(row.publish_date),
+					tags: row.tags ? row.tags.split(",") : [],
+					content: articleContent,
+					coverImage: row.cover_image || "",
+				};
+			}),
+		);
+
+		return articles;
+	} catch (error) {
+		console.error("Error fetching articles by title:", error);
+		throw new Error("Failed to fetch articles");
+	}
+}
+
 export async function deleteArticle(id: string) {
 	const db = await getDB();
 	const r2 = await getR2();
