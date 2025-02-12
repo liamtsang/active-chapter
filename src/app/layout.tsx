@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
 	title: "Active Chapter",
@@ -22,7 +23,7 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className="max-h-dvh overflow-y-hidden font-space text-2xl selection:bg-[#FFFF00]">
-				{children}
+				<Suspense>{children}</Suspense>
 			</body>
 		</html>
 	);

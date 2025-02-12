@@ -1,6 +1,9 @@
 // app/admin/posts/page.tsx
 "use client";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -25,7 +28,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Trash2, Edit } from "lucide-react";
 import { format } from "date-fns";
-import { deleteArticle } from "@/lib/db";
+import { deleteArticle, getArticleLinks } from "@/lib/db";
 import { useEffect, useState } from "react";
 import AdminHeader from "../AdminHeader";
 
@@ -40,12 +43,6 @@ interface Article {
 	coverImage?: string;
 }
 
-async function getArticles(): Promise<Article[]> {
-	const response = await fetch("/api/articles");
-	if (!response.ok) throw new Error("Failed to fetch articles");
-	return response.json();
-}
-
 export default function PostsAdmin() {
 	const [articles, setArticles] = useState<Article[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -53,18 +50,28 @@ export default function PostsAdmin() {
 	const { toast } = useToast();
 
 	useEffect(() => {
-		getArticles()
-			.then(setArticles)
-			.catch((error) => {
-				console.error("Error fetching articles:", error);
-				toast({
-					variant: "destructive",
-					title: "Error",
-					description: "Failed to load articles",
-				});
-			})
-			.finally(() => setIsLoading(false));
-	}, [toast]);
+		let mounted = true;
+		async function loadArticles() {
+			try {
+				const fetchedArticles = await getArticleLinks();
+				if (mounted) {
+					setArticles(fetchedArticles);
+				}
+			} catch (err) {
+				if (mounted) {
+					console.error(err);
+				}
+			} finally {
+				if (mounted) {
+					setIsLoading(false);
+				}
+			}
+		}
+		loadArticles();
+		return () => {
+			mounted = false;
+		};
+	}, []);
 
 	const handleDelete = async (id: string) => {
 		try {

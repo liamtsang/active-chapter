@@ -1,6 +1,5 @@
 // columnReducer.ts
 import type { ColumnState, Action } from "@/types";
-import { useRouter } from "next/navigation";
 
 export const initialColumn: ColumnState = {
 	home: { open: "third" },
@@ -128,9 +127,6 @@ export function getInitialStateFromURL(): Partial<ColumnState> {
 
 	const params = new URLSearchParams(window.location.search);
 	const view = params.get("view");
-	const articleId = params.get("article");
-
-	// console.log("Initial URL Load - Params:", { view, articleId });
 
 	// Make sure we return a complete state object, not partial
 	switch (view) {

@@ -41,7 +41,7 @@ export default function Home() {
 				if (article) {
 					dispatch({
 						type: "open-article",
-						article: article.article[0],
+						article: (article as { article: Article[] }).article[0],
 					});
 				}
 			})

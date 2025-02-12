@@ -11,9 +11,8 @@ export async function GET(
 		const decodedTitle = decodeURIComponent(params.title.replace(/\+/g, " "));
 		const article = await getArticlesByTitle(decodedTitle);
 		revalidateTag("articles");
-		console.log(article);
 		return server.NextResponse.json({ article: article });
-	} catch (error) {
+	} catch {
 		return server.NextResponse.json(
 			{ error: "Failed to fetch article" },
 			{ status: 500 },

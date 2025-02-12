@@ -70,7 +70,9 @@ export const Main = ({
 					onMouseLeave={() => onColumnHover(null)}
 					className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px] ml-0"
 				>
-					<SelectedArticle article={columnState.article.article} />
+					{columnState && (
+						<SelectedArticle article={columnState.article.article} />
+					)}
 				</motion.section>
 			</AnimatePresence>
 			<motion.section

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import StarterKit from "@tiptap/starter-kit";
-import React from "react";
+import type React from "react";
 
 interface TiptapProps {
 	onContentChange: (content: string) => void;
@@ -24,19 +24,15 @@ const Tiptap: React.FC<TiptapProps> = ({ onContentChange, hasErrors }) => {
 		content: "<p>Hello World! 🌎️</p>",
 		onUpdate: ({ editor }) => {
 			onContentChange(editor.getHTML());
-			console.log(editor.getText());
-			console.log(editor.getJSON());
 		},
 	});
-
-	console.log(hasErrors);
 
 	if (!editor) {
 		return null;
 	}
 
 	return (
-		<Card className="max-w-fit">
+		<Card className={`max-w-fit ${hasErrors ? "bg-red" : ""}`}>
 			<CardHeader>
 				<CardTitle>Article </CardTitle>
 				<CardDescription>Write the article here</CardDescription>

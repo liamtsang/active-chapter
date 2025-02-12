@@ -73,7 +73,7 @@ export const Header = ({
 								type: "open-article",
 								article: columnState.article.article,
 							});
-						} else if (columnState.article.open === "fullMobile") {
+						} else if (columnState?.article.open === "fullMobile") {
 							dispatch({ type: "default", article: null });
 						} else {
 							dispatch({ type: "full-article", article: null });
