@@ -2,10 +2,7 @@ export const About = () => {
 	return (
 		<section className="space-y-8 p-4 pb-32">
 			<h2 className="text-2xl/5 md:text-3xl font-medium">Active Chapter</h2>
-			<h3
-				className="text-base/5 xl:text-lg/7 font-instrument font-medium italic"
-				pb-2
-			>
+			<h3 className="text-base/5 xl:text-lg/7 font-instrument font-medium italic">
 				We are a publishing and art collective, and we like you and we love you
 				and we need you.
 			</h3>
@@ -50,7 +47,7 @@ export const About = () => {
 			</div>
 			<div>
 				<h3 className="pb-2 text-base/5 xl:text-lg/7 font-instrument font-medium italic">
-					Markets & Stockists
+					Grants & Awards
 				</h3>
 				<ul className="text-base/5 xl:text-lg/7">
 					<li>
