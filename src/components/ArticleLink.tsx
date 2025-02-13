@@ -14,7 +14,10 @@ export const ArticleLink = ({
 	toggleArticle: (article: Article) => void;
 }) => (
 	<li
-		onClick={() => toggleArticle(article)}
+		onClick={(e) => {
+			e.stopPropagation();
+			toggleArticle(article);
+		}}
 		className="text-base/4 md:text-2xl/5 gap-2 md:leading-6 flex flex-row md:gap-6 border-black border-b-[1px] pl-2 md:pl-2 py-2"
 	>
 		<div className="hidden md:block">

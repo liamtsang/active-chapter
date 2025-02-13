@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import type { ColumnState, Article } from "@/types";
+import type { ColumnState, Article, Action } from "@/types";
 import {
 	homeColumnVariants,
 	articleColumnVariants,
@@ -17,6 +17,7 @@ import type { Filters } from "@/app/page";
 type MainProps = {
 	columnState?: ColumnState;
 	toggleArticle: (article: Article) => void;
+	dispatch: (value: Action) => void;
 	onColumnHover: (column: string | null) => void;
 	filters: Filters;
 };
@@ -24,6 +25,7 @@ type MainProps = {
 export const Main = ({
 	columnState,
 	toggleArticle,
+	dispatch,
 	onColumnHover,
 	filters,
 }: MainProps) => {
@@ -34,7 +36,7 @@ export const Main = ({
 				duration: 0.3,
 				layout: { duration: 0.3 },
 			}}
-			className="flex flex-cols outline outline-black outline-[1px] h-full overflow-x-clip"
+			className=" flex flex-cols outline outline-black outline-[1px] h-full overflow-x-clip"
 		>
 			<motion.section
 				layout="position"
@@ -46,9 +48,16 @@ export const Main = ({
 					layout: { duration: 0.3 },
 					width: { duration: 0.3 },
 				}}
+				onClick={() => {
+					if (columnState?.home.open === "full") {
+						dispatch({ type: "default", article: null });
+					} else {
+						dispatch({ type: "open-home", article: null });
+					}
+				}}
 				onMouseEnter={() => onColumnHover("home")}
 				onMouseLeave={() => onColumnHover(null)}
-				className="z-[2] overflow-x-hidden font-space bg-white outline outline-black outline-[1px] h-dvh"
+				className={`${columnState?.home.open === "full" ? "cursor-w-resize" : "cursor-e-resize"} z-[2] overflow-x-hidden font-space bg-white outline outline-black outline-[1px] h-dvh`}
 			>
 				<motion.ul layout="position" className="cursor-pointer">
 					<ArticlesList filters={filters} toggleArticle={toggleArticle} />{" "}
@@ -66,9 +75,21 @@ export const Main = ({
 						layout: { duration: 0.3 },
 						width: { duration: 0.3 },
 					}}
+					onClick={() => {
+						if (columnState?.article.open === "full") {
+							dispatch({
+								type: "open-article",
+								article: columnState.article.article,
+							});
+						} else if (columnState?.article.open === "fullMobile") {
+							dispatch({ type: "default", article: null });
+						} else {
+							dispatch({ type: "full-article", article: null });
+						}
+					}}
 					onMouseEnter={() => onColumnHover("article")}
 					onMouseLeave={() => onColumnHover(null)}
-					className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px] ml-0"
+					className={`${columnState?.article.open === "full" ? "cursor-e-resize" : "cursor-ew-resize"} h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px] ml-0`}
 				>
 					{columnState && (
 						<SelectedArticle article={columnState.article.article} />
@@ -85,9 +106,16 @@ export const Main = ({
 					layout: { duration: 0.3 },
 					width: { duration: 0.3 },
 				}}
+				onClick={() => {
+					if (columnState?.shop.open === "full") {
+						dispatch({ type: "default", article: null });
+					} else {
+						dispatch({ type: "open-shop", article: null });
+					}
+				}}
 				onMouseEnter={() => onColumnHover("shop")}
 				onMouseLeave={() => onColumnHover(null)}
-				className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px] pb-32"
+				className={`${columnState?.shop.open === "full" ? "cursor-ew-resize" : "cursor-ew-resize"} h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px] pb-32`}
 			>
 				<Shop />
 			</motion.section>
@@ -101,9 +129,16 @@ export const Main = ({
 					layout: { duration: 0.3 },
 					width: { duration: 0.3 },
 				}}
+				onClick={() => {
+					if (columnState?.about.open === "full") {
+						dispatch({ type: "default", article: null });
+					} else {
+						dispatch({ type: "open-about", article: null });
+					}
+				}}
 				onMouseEnter={() => onColumnHover("about")}
 				onMouseLeave={() => onColumnHover(null)}
-				className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px]"
+				className={`${columnState?.about.open === "full" ? "cursor-e-resize" : "cursor-w-resize"} h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px]`}
 			>
 				<motion.div layout="position">
 					<About />

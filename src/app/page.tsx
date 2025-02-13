@@ -101,6 +101,7 @@ export default function Home() {
 			<Main
 				filters={filters}
 				columnState={columnState}
+				dispatch={dispatch}
 				toggleArticle={toggleArticle}
 				onColumnHover={setHoveredColumn}
 			/>
