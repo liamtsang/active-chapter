@@ -87,7 +87,7 @@ export const Main = ({
 				}}
 				onMouseEnter={() => onColumnHover("shop")}
 				onMouseLeave={() => onColumnHover(null)}
-				className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px]"
+				className="h-dvh overflow-y-auto relative bg-white outline outline-black outline-[1px] pb-32"
 			>
 				<Shop />
 			</motion.section>
