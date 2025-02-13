@@ -6,12 +6,16 @@ export const SelectedArticle = ({ article }: { article: Article | null }) => {
 	return (
 		<div className="p-4">
 			{article.coverImage && (
-				<img className="pb-4" alt="cover" src={article.coverImage} />
+				<img
+					className="pb-4 max-h-64 mx-auto"
+					alt="cover"
+					src={article.coverImage}
+				/>
 			)}
 			{article.author && <h1 className="mb-0 pb-0">{article.author}</h1>}
-			{article.journal && <h2 className="pb-4">{article.journal}</h2>}
+			{article.journal && <h2 className="hidden">{article.journal}</h2>}
 			<article
-				className="font-instrument prose prose-black xl:text-xl/9 pb-[20ch]"
+				className="font-instrument prose prose-black xl:text-xl/9 pb-[20ch] pt-4"
 				dangerouslySetInnerHTML={{ __html: article.content }}
 			/>
 		</div>

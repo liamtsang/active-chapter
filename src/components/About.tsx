@@ -8,7 +8,7 @@ export const About = () => {
 			</h3>
 			<div
 				id="body-text"
-				className="font-instrument text-base/5 xl:text-lg/7 indent-8 space-y-2"
+				className="max-w-[65ch] font-instrument text-base/5 xl:text-lg/7 indent-8 space-y-2"
 			>
 				<p>
 					We believe in community through friendship, and knowledge through
