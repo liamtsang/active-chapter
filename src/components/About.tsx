@@ -1,14 +1,14 @@
 export const About = () => {
 	return (
 		<section className="space-y-8 p-4 pb-32">
-			<h2 className="text-2xl/5 md:text-3xl font-medium">Active Chapter</h2>
-			<h3 className="text-base/5 xl:text-lg/7 font-instrument font-medium italic">
+			<h2 className="text-xl/5 md:text-3xl font-medium">Active Chapter</h2>
+			<h3 className="text-sm/5 md:text-base/5 xl:text-lg/7 font-instrument font-medium italic">
 				We are a publishing and art collective, and we like you and we love you
 				and we need you.
 			</h3>
 			<div
 				id="body-text"
-				className="max-w-[65ch] font-instrument text-base/5 xl:text-lg/7 indent-8 space-y-2"
+				className="max-w-[65ch] font-instrument text-sm/5 md:text-base/5 xl:text-lg/7 indent-8 space-y-2"
 			>
 				<p>
 					We believe in community through friendship, and knowledge through
@@ -34,10 +34,10 @@ export const About = () => {
 				</p>
 			</div>
 			<div>
-				<h3 className="pb-2 text-base/5 xl:text-lg/7 font-instrument font-medium italic">
+				<h3 className="pb-2 text-sm/5 md:text-base/5 xl:text-lg/7 font-instrument font-medium italic">
 					Markets & Stockists
 				</h3>
-				<ul className="text-base/5 xl:text-lg/7">
+				<ul className="text-sm/5 md:text-base/5 xl:text-lg/7">
 					<li>2025-Present Human Relations, Brooklyn, NY</li>
 					<li>2025-Present Hive Mind Books, Brooklyn, NY</li>
 					<li>2024 Trans Art Bazaar, Brooklyn, NY</li>
@@ -46,10 +46,10 @@ export const About = () => {
 				</ul>
 			</div>
 			<div>
-				<h3 className="pb-2 text-base/5 xl:text-lg/7 font-instrument font-medium italic">
+				<h3 className="pb-2 text-sm/5 md:text-base/5 xl:text-lg/7 font-instrument font-medium italic">
 					Grants & Awards
 				</h3>
-				<ul className="text-base/5 xl:text-lg/7">
+				<ul className="text-sm/5 md:text-base/5 xl:text-lg/7">
 					<li>
 						2025 What Can We Do? Artist Grant, Asian American Arts Alliance
 					</li>

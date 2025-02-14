@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const images = [
 	{ src: "/coverPhoto.jpg", alt: "Cover" },
@@ -11,14 +10,11 @@ const images = [
 
 export const Shop = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const [isTransitioning, setIsTransitioning] = useState(false);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
-			setIsTransitioning(true);
 			setTimeout(() => {
 				setCurrentIndex((prev) => (prev + 1) % images.length);
-				setIsTransitioning(false);
 			}, 500); // Match this with CSS transition duration
 		}, 3000); // Change image every 3 seconds
 
@@ -64,12 +60,12 @@ export const Shop = () => {
 				</div>
 			</div>
 			<div className="p-4 space-y-4">
-				<h2 className="text-2xl/5 md:text-3xl font-medium text-balance">
+				<h2 className="text-xl/5 md:text-3xl font-medium text-balance">
 					Edition 0: Confessions of Love
 				</h2>
 				<p
 					id="body-text"
-					className="font-instrument text-base/5 xl:text-lg/7 indent-0 space-y-2"
+					className="font-instrument text-sm/5 md:text-base/5 xl:text-lg/7 indent-0 space-y-2"
 				>
 					Our beloved Edition 0! We gathered these pieces from our friends,
 					former lovers, and childhood best friends. We wanted, not only to
