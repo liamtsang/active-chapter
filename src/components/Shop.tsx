@@ -86,4 +86,13 @@ export const Shop = () => {
 	);
 };
 
+// <a
+// 	className="outline outline-[1px] outline-black block bg-[#FFFF00] py-2 px-4 max-w-fit"
+// 	href="https://activechapter.bigcartel.com/product/edition-0-confessions-of-love"
+// 	target="_blank"
+// 	rel="noreferrer"
+// >
+// 	Buy Now
+// </a>
+
 export default Shop;
