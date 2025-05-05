@@ -424,12 +424,12 @@ export async function deleteArticle(id: string) {
 export async function uploadImage({ formData }: { formData: FormData }) {
 	try {
 		const response = await fetch(
-			// "https://liamt:sm00thie@active-chapter.liamtsang.workers.dev/api/images/upload",
-			"/api/images/upload",
+			"https://activechapter.online/api/images/upload",
+			// "/api/images/upload",
 			{
 				method: "PUT",
 				headers: {
-					Authorization: `Basic ${btoa("liamt:sm00thie")}`,
+					Authorization: `Basic ${btoa("active:chapter")}`,
 				},
 				body: formData,
 			},
@@ -441,7 +441,7 @@ export async function uploadImage({ formData }: { formData: FormData }) {
 
 		const key = await response.text();
 		// Return the URL to access the image
-		return `https://active-chapter.liamtsang.workers.dev/api/images/${key}`;
+		return `https://active:chapter@activechapter.online/api/images/${key}`;
 	} catch (error) {
 		console.error("Upload error:", error);
 		throw error;

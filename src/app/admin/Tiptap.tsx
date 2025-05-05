@@ -1,5 +1,4 @@
 "use client";
-
 import { useEditor, EditorContent } from "@tiptap/react";
 import {
 	Card,
@@ -10,6 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import { useRef } from "react";
 import type React from "react";
 
 interface TiptapProps {
@@ -18,8 +19,56 @@ interface TiptapProps {
 }
 
 const Tiptap: React.FC<TiptapProps> = ({ onContentChange, hasErrors }) => {
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const handleImageUpload = async (file: File) => {
+		try {
+			const formData = new FormData();
+			formData.set("image", file);
+
+			const response = await fetch("/api/images/upload", {
+				method: "PUT",
+				headers: {
+					Authorization: `Basic ${btoa("active:chapter")}`,
+				},
+				body: formData,
+			});
+
+			if (!response.ok) {
+				throw new Error(`Upload failed: ${response.statusText}`);
+			}
+
+			const key = await response.text();
+			editor
+				?.chain()
+				.focus()
+				.setImage({ src: `https://activechapter.online/api/images/${key}` })
+				.run();
+		} catch (error) {
+			console.error("Upload error:", error);
+			throw error;
+		}
+	};
+
+	const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			handleImageUpload(file);
+		}
+		// Reset the input
+		if (fileInputRef.current) {
+			fileInputRef.current.value = "";
+		}
+	};
+
 	const editor = useEditor({
-		extensions: [StarterKit],
+		extensions: [
+			StarterKit,
+			Image.configure({
+				inline: true, // Change to false if you want images on separate lines
+				allowBase64: true, // Allow base64 encoded images
+			}),
+		],
 		immediatelyRender: false,
 		content: "<p>Hello World! 🌎️</p>",
 		onUpdate: ({ editor }) => {
@@ -177,6 +226,21 @@ const Tiptap: React.FC<TiptapProps> = ({ onContentChange, hasErrors }) => {
 							>
 								Hard break
 							</Button>
+							{/* Image Upload Button */}
+							<Button
+								onClick={() => fileInputRef.current?.click()}
+								title="Upload Image"
+							>
+								Image
+							</Button>
+							{/* Hidden file input */}
+							<input
+								type="file"
+								ref={fileInputRef}
+								onChange={handleFileInputChange}
+								accept="image/*"
+								style={{ display: "none" }}
+							/>
 							<Button
 								onClick={() => editor.chain().focus().undo().run()}
 								disabled={!editor.can().chain().focus().undo().run()}
@@ -191,7 +255,7 @@ const Tiptap: React.FC<TiptapProps> = ({ onContentChange, hasErrors }) => {
 							</Button>
 						</div>
 						<EditorContent
-							className="mt-1 font-instrument prose prose-black "
+							className="mt-1 font-instrument prose prose-black"
 							editor={editor}
 						/>
 					</div>

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const About = () => {
 	return (
 		<section className="space-y-8 p-4 pb-32">
@@ -21,25 +23,36 @@ export const About = () => {
 				</p>
 				<p>
 					Active Chapter was founded in 2024 by artists Eka Savajol, Lucia
-					Mumma, Max Chu, and XY Zhou. Our intern is Jojo Savajol.
+					Mumma, Max Chu, and XY Zhou. Our intern is Jojo Savajol. Web design by
+					Liam Tsang.
 				</p>
 				<p>
-					Our current project is Active Chapter’s first journal, Confessions of
-					Love. We gathered these pieces from our friends, former lovers, and
-					childhood best friends. We wanted, not only to gather their thoughts
-					on love, but to gather our loved ones together, to see their passions
-					materialized, congealed, brought together in the union of a
-					collective. Next, we will be collecting work for our Summer release,
-					In the Mood for Love. Stay tuned.
+					Our current project is In the Mood for Love, as a part of What Can We
+					Do? artist grant received from Asian American Arts Alliance. We are
+					working with people living in Chinatown, New York to collect their
+					stories and perspectives themed around love. Stay tuned.
+				</p>
+				<p>
+					Get in touch!{" "}
+					<a
+						className="underline"
+						href="mailto:activechapterpublishing@gmail.com"
+						target="_blank"
+					>
+						activechapterpublishing@gmail.com
+					</a>
 				</p>
 			</div>
 			<div>
+				mailto
 				<h3 className="pb-2 text-sm/5 md:text-base/5 xl:text-lg/7 font-instrument font-medium italic">
 					Markets & Stockists
 				</h3>
 				<ul className="text-sm/5 md:text-base/5 xl:text-lg/7">
+					<li>2025-Present Dreamers Coffee House, New York, NY</li>
 					<li>2025-Present Human Relations, Brooklyn, NY</li>
 					<li>2025-Present Hive Mind Books, Brooklyn, NY</li>
+					<li>2025 Everything Must Go , Rash, Brooklyn, NY</li>
 					<li>2024 Trans Art Bazaar, Brooklyn, NY</li>
 					<li>2024 Furuba Market, Brooklyn, NY</li>
 					<li>2023 am:pm gallery, Brooklyn, NY</li>
@@ -55,6 +68,13 @@ export const About = () => {
 					</li>
 				</ul>
 			</div>
+			<Image
+				alt="Photo of active chapter members"
+				className="outline outline-black outline-[1px]"
+				width={400}
+				height={200}
+				src="/about.jpeg"
+			/>
 		</section>
 	);
 };
