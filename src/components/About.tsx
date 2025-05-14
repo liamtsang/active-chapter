@@ -44,7 +44,6 @@ export const About = () => {
 				</p>
 			</div>
 			<div>
-				mailto
 				<h3 className="pb-2 text-sm/5 md:text-base/5 xl:text-lg/7 font-instrument font-medium italic">
 					Markets & Stockists
 				</h3>
