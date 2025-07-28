@@ -20,7 +20,6 @@ type ShopItemProps = {
 
 export const ShopItem = (props: ShopItemProps) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
-	console.log(props);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -78,9 +77,8 @@ export const ShopItem = (props: ShopItemProps) => {
 				<p
 					id="body-text"
 					className="font-instrument text-sm/5 md:text-base/5 xl:text-lg/7 indent-0 space-y-2"
-				>
-					{props.props.description}
-				</p>
+					dangerouslySetInnerHTML={{ __html: props.props.description }}
+				></p>
 				<a
 					className="outline outline-[1px] outline-black block bg-[#FFFF00] py-2 px-4 max-w-fit"
 					href={props.props.url}

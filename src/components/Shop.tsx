@@ -13,9 +13,28 @@ const top01images = [
 	{ src: "/TOP01-03.png", alt: "POster 2" },
 ];
 
+const itmflimages = [
+	{ src: "/itmfl_product1.png", alt: "Cover" },
+	{ src: "/itmfl_product2.png", alt: "Spread 1" },
+	{ src: "/itmfl_product3.png", alt: "Spread 2" },
+];
+
 export const Shop = () => {
 	return (
 		<section className="max-w-[65ch] mx-auto space-y-12">
+			<ShopItem
+				props={{
+					title:
+						"In the Mood For Love: an anthology of love stories from Chinatown",
+					description:
+						"<i>In the Mood for Love</i> is a collection of art and writing about love by elders and teens in Chinatown. Through weekly workshops led by members of Active Chapter, elders and teens shared their feelings about friendship, romance, and family through collage, drawing, writing, and oral stories.",
+					items: itmflimages,
+					cta: "Buy Now",
+					priceDollars: "12",
+					priceCents: "00",
+					url: "https://activechapter.bigcartel.com/product/in-the-mood-for-love-an-anthology-of-love-stories-from-chinatown",
+				}}
+			/>
 			<ShopItem
 				props={{
 					title: "Edition 0",
