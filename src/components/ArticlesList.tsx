@@ -89,8 +89,23 @@ function ArticlesContent({
 						.toLocaleString("en-US", { month: "short" })
 						.toUpperCase()}
 					title={article.title}
-					article={article}
-					toggleArticle={toggleArticle}
+					article={{
+						id: article.id,
+						title: article.title,
+						author: article.author,
+						journal: article.journal,
+						medium: article.medium,
+						publishDate: article.publishDate,
+						tags: article.tags,
+						coverImage: article.coverImage || "",
+					}}
+					toggleArticle={(articleMetadata) => {
+						const fullArticle: Article = {
+							...articleMetadata,
+							content: article.content,
+						};
+						toggleArticle(fullArticle);
+					}}
 				/>
 			))}
 		</div>

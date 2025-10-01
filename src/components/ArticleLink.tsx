@@ -1,4 +1,13 @@
-import type { Article } from "@/types";
+interface ArticleMetadata {
+  id: string;
+  title: string;
+  author: string;
+  journal: string;
+  medium: string;
+  publishDate: Date;
+  tags: string[];
+  coverImage: string;
+}
 
 export const ArticleLink = ({
 	day,
@@ -10,8 +19,8 @@ export const ArticleLink = ({
 	day: string;
 	month: string;
 	title: string;
-	article: Article;
-	toggleArticle: (article: Article) => void;
+	article: ArticleMetadata;
+	toggleArticle: (article: ArticleMetadata) => void;
 }) => (
 	<li
 		onClick={(e) => {

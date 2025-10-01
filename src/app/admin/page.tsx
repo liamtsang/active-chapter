@@ -18,7 +18,6 @@ import {
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { saveArticle } from "@/lib/db";
-import AdminHeader from "./AdminHeader";
 
 interface Metadata {
 	title: string;
@@ -161,8 +160,7 @@ export default function Home() {
 
 	return (
 		<>
-			<main className="font-instrument p-4 w-full h-dvh overflow-y-scroll flex flex-col items-center justify-start gap-8">
-				<AdminHeader />
+			<div className="font-instrument flex flex-col items-center justify-start gap-8">
 				<div className="max-w-[65ch] w-full flex flex-col items-center justify-start gap-8">
 					<MetadataForm
 						onMetadataChange={handleMetadataChange}
@@ -197,7 +195,7 @@ export default function Home() {
 						</p>
 					)}
 				</div>
-			</main>
+			</div>
 
 			<AlertDialog open={showUnsavedDialog} onOpenChange={setShowUnsavedDialog}>
 				<AlertDialogContent>

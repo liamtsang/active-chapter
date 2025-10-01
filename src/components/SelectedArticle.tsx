@@ -1,3 +1,4 @@
+// import Image from "next/image";
 import type { Article } from "@/types";
 
 export const SelectedArticle = ({ article }: { article: Article | null }) => {
@@ -10,6 +11,9 @@ export const SelectedArticle = ({ article }: { article: Article | null }) => {
 					className="pb-4 max-h-64 mx-auto"
 					alt="cover"
 					src={article.coverImage}
+					width={400}
+					height={200}
+					style={{ objectFit: "contain" }}
 				/>
 			)}
 			{article.author && <h1 className="mb-0 pb-0">{article.author}</h1>}

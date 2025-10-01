@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { Upload } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -105,10 +106,12 @@ export function ImageUpload({ onImageUpload, className }: ImageUploadProps) {
 
 				{preview ? (
 					<div className="relative aspect-video w-full overflow-hidden rounded-lg">
-						<img
+						<Image
 							src={preview}
 							alt="Cover preview"
-							className="object-cover w-full h-full"
+							fill
+							className="object-cover"
+							sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 						/>
 						<Button
 							variant="secondary"

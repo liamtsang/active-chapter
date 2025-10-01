@@ -106,3 +106,117 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* About page styles */
+.about section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+  padding-bottom: 8rem;
+}
+
+.about h2 {
+  font-size: 1.25rem;
+  line-height: 1.25;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .about h2 {
+    font-size: 1.875rem;
+  }
+}
+
+.about h3 {
+  font-size: 0.875rem;
+  line-height: 1.25;
+  font-family: "Instrument Sans", serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+@media (min-width: 768px) {
+  .about h3 {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about h3 {
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+}
+
+.about p {
+  max-width: 65ch;
+  font-family: "Instrument Sans", serif;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  text-indent: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .about p {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about p {
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+}
+
+.about div h3 {
+  padding-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  font-family: "Instrument Sans", serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+@media (min-width: 768px) {
+  .about div h3 {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about div h3 {
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+}
+
+.about ul {
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
+@media (min-width: 768px) {
+  .about ul {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about ul {
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+}
+
+.about img {
+  outline: 1px solid black;
+}

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Suspense } from "react";
+import { PopupProvider } from "@/components/PopupProvider";
+import { SWRProvider } from "@/components/SWRProvider";
 
 export const metadata: Metadata = {
 	title: "Active Chapter",
@@ -23,7 +25,11 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className="max-h-dvh overflow-y-hidden font-space text-2xl selection:bg-[#FFFF00]">
-				<Suspense>{children}</Suspense>
+				<SWRProvider>
+					<PopupProvider>
+						<Suspense>{children}</Suspense>
+					</PopupProvider>
+				</SWRProvider>
 			</body>
 		</html>
 	);

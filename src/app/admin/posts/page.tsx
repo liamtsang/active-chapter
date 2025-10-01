@@ -30,7 +30,6 @@ import { Trash2, Edit } from "lucide-react";
 import { format } from "date-fns";
 import { deleteArticle, getArticleLinks } from "@/lib/db";
 import { useEffect, useState } from "react";
-import AdminHeader from "../AdminHeader";
 
 interface Article {
 	id: string;
@@ -96,8 +95,7 @@ export default function PostsAdmin() {
 	}
 
 	return (
-		<div className="container mx-auto p-8">
-			<AdminHeader />
+		<div>
 			<div className="flex justify-between items-center mb-6">
 				<h1 className="text-2xl font-bold">Articles</h1>
 				<Button onClick={() => router.push("/admin")}>New Article</Button>

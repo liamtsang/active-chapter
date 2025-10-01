@@ -48,7 +48,7 @@ export const ShopItem = (props: ShopItemProps) => {
 							alt={image.alt}
 							fill
 							className="object-contain"
-							sizes="100vw"
+							sizes="800px"
 							priority={index === 0}
 						/>
 					</div>
