@@ -1,66 +1,84 @@
 import { ShopItem } from "./ShopItem";
 
 const edition0images = [
-	{ src: "/coverPhoto.jpg", alt: "Cover" },
-	{ src: "/tableOfContents.jpg", alt: "Table of contents" },
-	{ src: "/spread1.jpg", alt: "Spread 1" },
-	{ src: "/spread2.jpg", alt: "Spread 2" },
+  { src: "/coverPhoto.jpg", alt: "Cover" },
+  { src: "/tableOfContents.jpg", alt: "Table of contents" },
+  { src: "/spread1.jpg", alt: "Spread 1" },
+  { src: "/spread2.jpg", alt: "Spread 2" },
 ];
 
 const top01images = [
-	{ src: "/TOP01-01.png", alt: "Cover" },
-	{ src: "/TOP01-02.png", alt: "Poster 1" },
-	{ src: "/TOP01-03.png", alt: "POster 2" },
+  { src: "/TOP01-01.png", alt: "Cover" },
+  { src: "/TOP01-02.png", alt: "Poster 1" },
+  { src: "/TOP01-03.png", alt: "POster 2" },
 ];
 
 const itmflimages = [
-	{ src: "/itmfl_product1.png", alt: "Cover" },
-	{ src: "/itmfl_product2.png", alt: "Spread 1" },
-	{ src: "/itmfl_product3.png", alt: "Spread 2" },
+  { src: "/itmfl_product1.png", alt: "Cover" },
+  { src: "/itmfl_product2.png", alt: "Spread 1" },
+  { src: "/itmfl_product3.png", alt: "Spread 2" },
+];
+
+const calendarimages = [
+  { src: "/calendar1.webp", alt: "Cover" },
+  { src: "/calendar2.webp", alt: "Spread 1" },
+  { src: "/calendar3.webp", alt: "Spread 2" },
 ];
 
 export const Shop = () => {
-	return (
-		<section className="max-w-[65ch] mx-auto space-y-12">
-			<ShopItem
-				props={{
-					title:
-						"In the Mood For Love: an anthology of love stories from Chinatown",
-					description:
-						"<i>In the Mood for Love</i> is a collection of art and writing about love by elders and teens in Chinatown. Through weekly workshops led by members of Active Chapter, elders and teens shared their feelings about friendship, romance, and family through collage, drawing, writing, and oral stories.",
-					items: itmflimages,
-					cta: "Buy Now",
-					priceDollars: "12",
-					priceCents: "00",
-					url: "https://activechapter.bigcartel.com/product/in-the-mood-for-love-an-anthology-of-love-stories-from-chinatown",
-				}}
-			/>
-			<ShopItem
-				props={{
-					title: "Edition 0",
-					description:
-						"Our beloved Edition 0! We gathered these pieces from our friends, former lovers, and childhood best friends. We wanted, not only to gather their thoughts on love, but to gather our loved ones together, to see their passions materialized, congealed, brought together in the union of a collective.",
-					items: edition0images,
-					cta: "Buy Now",
-					priceDollars: "17",
-					priceCents: "50",
-					url: "https://activechapter.bigcartel.com/product/edition-0-confessions-of-love",
-				}}
-			/>
-			<ShopItem
-				props={{
-					title: "[Trans Opinions Periodically]",
-					description:
-						"TOP is a pamphlet for and by trans/nonbinary people, for us to share our troubles, fears, loves, hopelessness, despairs and to respond to trans-related news. (accepting submissions)",
-					items: top01images,
-					cta: "Donate / Download",
-					priceDollars: "5",
-					priceCents: "00",
-					url: "https://activechapter.bigcartel.com/product/top-zine-edition-1-free",
-				}}
-			/>
-		</section>
-	);
+  return (
+    <section className="max-w-[65ch] mx-auto space-y-12">
+      <ShopItem
+        props={{
+          title: "When A Spotted Horse Is Not A Horse",
+          description:
+            "Set in a fictional medieval kingdom, stable-boy Salt Lick and horse doctor Remedy use magic to become Princess Lenora’s noble steed in a monumental joust against their fearsome rival, Seth. Things quickly become more complicated than they seem when they encounter the sweet young Hopscotch, Seth’s unwilling steed.",
+          items: calendarimages,
+          cta: "Buy Now",
+          priceDollars: "25",
+          priceCents: "00",
+          url: "https://activechapter.bigcartel.com/product/2026-calendar-when-a-spotted-horse-is-not-a-horse",
+        }}
+      />
+      <ShopItem
+        props={{
+          title:
+            "In the Mood For Love: an anthology of love stories from Chinatown",
+          description:
+            "<i>In the Mood for Love</i> is a collection of art and writing about love by elders and teens in Chinatown. Through weekly workshops led by members of Active Chapter, elders and teens shared their feelings about friendship, romance, and family through collage, drawing, writing, and oral stories.",
+          items: itmflimages,
+          cta: "Buy Now",
+          priceDollars: "12",
+          priceCents: "00",
+          url: "https://activechapter.bigcartel.com/product/in-the-mood-for-love-an-anthology-of-love-stories-from-chinatown",
+        }}
+      />
+      <ShopItem
+        props={{
+          title: "Edition 0",
+          description:
+            "Our beloved Edition 0! We gathered these pieces from our friends, former lovers, and childhood best friends. We wanted, not only to gather their thoughts on love, but to gather our loved ones together, to see their passions materialized, congealed, brought together in the union of a collective.",
+          items: edition0images,
+          cta: "Buy Now",
+          priceDollars: "17",
+          priceCents: "50",
+          url: "https://activechapter.bigcartel.com/product/edition-0-confessions-of-love",
+        }}
+      />
+      <ShopItem
+        props={{
+          title: "[Trans Opinions Periodically]",
+          description:
+            "TOP is a pamphlet for and by trans/nonbinary people, for us to share our troubles, fears, loves, hopelessness, despairs and to respond to trans-related news. (accepting submissions)",
+          items: top01images,
+          cta: "Donate / Download",
+          priceDollars: "5",
+          priceCents: "00",
+          url: "https://activechapter.bigcartel.com/product/top-zine-edition-1-free",
+        }}
+      />
+    </section>
+  );
 };
 
 // <a
