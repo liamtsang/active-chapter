@@ -280,13 +280,13 @@ export async function saveArticleR2({
   return;
 }
 
-export const getArticleLinks = unstable_cache(
-  async () => {
-    const db = await getDB();
-    try {
-      const result = (await db
-        .prepare(
-          `
+// Non-cached version for admin pages
+async function fetchArticleLinks(): Promise<Article[]> {
+  const db = await getDB();
+  try {
+    const result = (await db
+      .prepare(
+        `
         SELECT
           a.id,
           a.title,
@@ -306,34 +306,43 @@ export const getArticleLinks = unstable_cache(
         GROUP BY a.id
         ORDER BY a.publish_date DESC
       `,
-        )
-        .all()) as D1Result<ArticleRow>;
+      )
+      .all()) as D1Result<ArticleRow>;
 
-      const r2 = await getR2();
-      const articleLinks: Article[] = await Promise.all(
-        result.results.map(async (row: ArticleRow) => {
-          const publishDate = new Date(row.publish_date);
-          const content = await r2.get(row.content_hash);
-          const articleContent = content ? await content.text() : "";
-          return {
-            id: row.id,
-            title: row.title,
-            author: row.author,
-            journal: row.journal,
-            medium: row.medium,
-            publishDate: publishDate,
-            tags: row.tags ? row.tags.split(",") : [],
-            content: articleContent,
-            coverImage: row.cover_image || "", // Provide a default empty string if no cover image
-          };
-        }),
-      );
-      return articleLinks;
-    } catch (error) {
-      console.error("Error fetching articles:", error);
-      throw new Error("Failed to fetch articles");
-    }
-  },
+    const r2 = await getR2();
+    const articleLinks: Article[] = await Promise.all(
+      result.results.map(async (row: ArticleRow) => {
+        const publishDate = new Date(row.publish_date);
+        const content = await r2.get(row.content_hash);
+        const articleContent = content ? await content.text() : "";
+        return {
+          id: row.id,
+          title: row.title,
+          author: row.author,
+          journal: row.journal,
+          medium: row.medium,
+          publishDate: publishDate,
+          tags: row.tags ? row.tags.split(",") : [],
+          content: articleContent,
+          coverImage: row.cover_image || "",
+        };
+      }),
+    );
+    return articleLinks;
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    throw new Error("Failed to fetch articles");
+  }
+}
+
+// Fresh fetch for admin - no caching
+export async function getArticleLinksFresh(): Promise<Article[]> {
+  return fetchArticleLinks();
+}
+
+// Cached version for public pages
+export const getArticleLinks = unstable_cache(
+  fetchArticleLinks,
   ["articles-list"],
   {
     revalidate: 300, // 5 minutes for ISR
