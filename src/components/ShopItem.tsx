@@ -77,7 +77,7 @@ export const ShopItem = (props: ShopItemProps) => {
         </h2>
         <p
           id="body-text"
-          className="font-instrument text-sm/5 md:text-base/5 xl:text-lg/7 indent-0 space-y-2"
+          className="font-instrument text-sm/5 md:text-base/5 xl:text-lg/7 indent-0"
           dangerouslySetInnerHTML={{ __html: props.props.description }}
         ></p>
         {props.props.soldOut ? (
