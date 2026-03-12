@@ -31,6 +31,11 @@ export default function AdminLayout({
                     About
                   </Button>
                 </Link>
+                <Link href="/admin/popup">
+                  <Button variant="ghost" className="text-sm">
+                    Popup
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="text-sm text-gray-500">Admin Panel</div>
